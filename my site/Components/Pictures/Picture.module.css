@@ -1,0 +1,18 @@
+
+.picture {
+    width: 400px;
+    height: 600px ;
+    object-fit: cover;
+    padding: 2px;
+    margin: 20px;
+    background: aquamarine;
+}
+
+.block {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
