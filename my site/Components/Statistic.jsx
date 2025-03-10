@@ -1,7 +1,17 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, PureComponent } from "react";
 import styles from "./StatisticTable.module.css";
 import { resolvePath } from "react-router-dom";
 import { PidorPull } from "./PullPidors";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 export default function Statistic() {
   const [pidorStats, setPidorStats] = useState([]);
@@ -262,6 +272,31 @@ export default function Statistic() {
       </div>
 
       <Pagination pidorPerPage={pidorPerPage} totalPidor={totalPidor} />
+
+      <LineChart
+        width={500}
+        height={300}
+        data={PidorPull}
+        margin={{
+          top: 5,
+          right: 30,
+          left: 20,
+          bottom: 5,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="time" />
+        <YAxis type="string" />
+        <Tooltip />
+        <Legend />
+        <Line
+          type="monotone"
+          dataKey="name"
+          stroke="#8884d8"
+          activeDot={{ r: 8 }}
+        />
+        <Line type="monotone" dataKey="time" stroke="red" />
+      </LineChart>
     </>
   );
 }
