@@ -33,6 +33,12 @@ export default function Statistic() {
     setPage(number);
   }
 
+  const pidorGroup = Object.groupBy(PidorPull, ({ time }) =>
+    new Date(time).toDateString()
+  );
+
+  console.log(pidorGroup);
+
   const Pagination = ({ pidorPerPage, totalPidor }) => {
     const pageNumbers = [];
     const siblingCount = 1;
@@ -273,30 +279,26 @@ export default function Statistic() {
 
       <Pagination pidorPerPage={pidorPerPage} totalPidor={totalPidor} />
 
-      <LineChart
-        width={500}
-        height={300}
-        data={PidorPull}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="time" />
-        <YAxis type="string" />
-        <Tooltip />
-        <Legend />
-        <Line
-          type="monotone"
-          dataKey="name"
-          stroke="#8884d8"
-          activeDot={{ r: 8 }}
-        />
-        <Line type="monotone" dataKey="time" stroke="red" />
-      </LineChart>
+      <ResponsiveContainer width={"100%"} height={500}>
+        <LineChart
+          width={1000}
+          height={400}
+          data={PidorPull}
+          margin={{ top: 20, right: 100, bottom: 5, left: 100 }}
+        >
+          <CartesianGrid stroke="#ccc" strokeDasharray="4 2" />
+
+          <XAxis dataKey="time" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="Sanya" stroke="red" />
+          <Line type="monotone" dataKey="Yarik" stroke="orange" />
+          <Line type="monotone" dataKey="Seroga" stroke="blue" />
+          <Line type="monotone" dataKey="Leha" stroke="grey" />
+          <Line type="monotone" dataKey="Dima" stroke="white"></Line>
+        </LineChart>
+      </ResponsiveContainer>
     </>
   );
 }

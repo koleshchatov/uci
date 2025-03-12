@@ -24,4 +24,9 @@ export const PidorPull = [
     time: 1737195315000,
     name: "Seroga",
   },
+  {
+    id: 6,
+    time: 1737195315023,
+    name: "Seroga",
+  },
 ];
