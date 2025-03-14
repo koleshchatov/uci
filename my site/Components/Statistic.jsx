@@ -3,8 +3,9 @@ import styles from "./StatisticTable.module.css";
 import { resolvePath } from "react-router-dom";
 import { PidorPull } from "./PullPidors";
 import {
-  LineChart,
-  Line,
+  BarChart,
+  Bar,
+  Rectangle,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -33,11 +34,30 @@ export default function Statistic() {
     setPage(number);
   }
 
+  const newPidorGroup = [];
+
   const pidorGroup = Object.groupBy(PidorPull, ({ time }) =>
     new Date(time).toDateString()
   );
 
-  console.log(pidorGroup);
+  function countPidorsName(value) {
+    const pidorName = { Yarik: 0, Sanya: 0, Dima: 0, Seroga: 0, Leha: 0 };
+
+    for (const item of value) {
+      if (pidorName[item.name]) {
+        pidorName[item.name] += 1;
+      } else pidorName[item.name] = 1;
+    }
+    return pidorName;
+  }
+
+  Object.entries(pidorGroup).forEach(([key, value]) => {
+    const countPidors = countPidorsName(value);
+    countPidors.time = key;
+    newPidorGroup.push(countPidors);
+  });
+
+  console.log(newPidorGroup);
 
   const Pagination = ({ pidorPerPage, totalPidor }) => {
     const pageNumbers = [];
@@ -279,25 +299,49 @@ export default function Statistic() {
 
       <Pagination pidorPerPage={pidorPerPage} totalPidor={totalPidor} />
 
-      <ResponsiveContainer width={"100%"} height={500}>
-        <LineChart
-          width={1000}
-          height={400}
-          data={PidorPull}
-          margin={{ top: 20, right: 100, bottom: 5, left: 100 }}
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart
+          width={500}
+          height={300}
+          data={newPidorGroup}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
         >
-          <CartesianGrid stroke="#ccc" strokeDasharray="4 2" />
-
+          <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="time" />
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="Sanya" stroke="red" />
-          <Line type="monotone" dataKey="Yarik" stroke="orange" />
-          <Line type="monotone" dataKey="Seroga" stroke="blue" />
-          <Line type="monotone" dataKey="Leha" stroke="grey" />
-          <Line type="monotone" dataKey="Dima" stroke="white"></Line>
-        </LineChart>
+          <Bar
+            dataKey="Yarik"
+            fill="orange"
+            activeBar={<Rectangle fill="orange" stroke="orange" />}
+          />
+          <Bar
+            dataKey="Sanya"
+            fill="red"
+            activeBar={<Rectangle fill="red" stroke="red" />}
+          />
+          <Bar
+            dataKey="Dima"
+            fill="green"
+            activeBar={<Rectangle fill="green" stroke="green" />}
+          />
+          <Bar
+            dataKey="Leha"
+            fill="blue"
+            activeBar={<Rectangle fill="blue" stroke="blue" />}
+          />
+          <Bar
+            dataKey="Seroga"
+            fill="aquamarine"
+            activeBar={<Rectangle fill="aquamarine" stroke="aquamarine" />}
+          />
+        </BarChart>
       </ResponsiveContainer>
     </>
   );
