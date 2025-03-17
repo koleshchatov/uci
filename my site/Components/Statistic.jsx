@@ -3,6 +3,8 @@ import styles from "./StatisticTable.module.css";
 import { resolvePath } from "react-router-dom";
 import { PidorPull } from "./PullPidors";
 import {
+  LineChart,
+  Line,
   BarChart,
   Bar,
   Rectangle,
@@ -16,8 +18,11 @@ import {
 
 export default function Statistic() {
   const [pidorStats, setPidorStats] = useState([]);
+  const [newPidorStats, setNewPidorStats] = useState([]);
+
   const [page, setPage] = useState(1);
   const [pidorPerPage, setPidorPerPage] = useState(3);
+  const [activeDiagramma, setActiveDiagramma] = useState("Line");
   const totalPidor = PidorPull.length;
 
   useEffect(() => {
@@ -27,11 +32,23 @@ export default function Statistic() {
       newPidorPage + pidorPerPage
     );
 
+    async function getPidorStats() {
+      const response = await fetch(
+        "https://api-pidors.tucha-happy-birthsday.ru/api/v1/pidor_stats"
+      );
+      const pidor = await response.json();
+      setNewPidorStats(pidor.daily_stats);
+    }
+    getPidorStats();
     setPidorStats(pagePidorPull);
   }, [page, pidorPerPage]);
 
+  console.log(newPidorStats);
   function handleClick(number) {
     setPage(number);
+  }
+  function handleChange(e) {
+    setActiveDiagramma(e.target.value);
   }
 
   const newPidorGroup = [];
@@ -57,7 +74,104 @@ export default function Statistic() {
     newPidorGroup.push(countPidors);
   });
 
-  console.log(newPidorGroup);
+  const DiagrammaBar = ({ data }) => {
+    return (
+      <ResponsiveContainer width="100%" aspect={3}>
+        <BarChart
+          width={500}
+          height={300}
+          data={data}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="time" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar
+            dataKey="Ярик"
+            fill="orange"
+            activeBar={<Rectangle fill="orange" stroke="orange" />}
+          />
+          <Bar
+            dataKey="Саня"
+            fill="red"
+            activeBar={<Rectangle fill="red" stroke="red" />}
+          />
+          <Bar
+            dataKey="Малой"
+            fill="green"
+            activeBar={<Rectangle fill="green" stroke="green" />}
+          />
+          <Bar
+            dataKey="Леха"
+            fill="blue"
+            activeBar={<Rectangle fill="blue" stroke="blue" />}
+          />
+          <Bar
+            dataKey="Серега"
+            fill="aquamarine"
+            activeBar={<Rectangle fill="aquamarine" stroke="aquamarine" />}
+          />
+        </BarChart>
+      </ResponsiveContainer>
+    );
+  };
+
+  const DiagrammaLine = ({ data }) => {
+    return (
+      <ResponsiveContainer width="100%" aspect={3}>
+        <LineChart
+          width={500}
+          height={300}
+          data={data}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="Ярик" stroke="orange" />
+          <Line type="monotone" dataKey="Саня" stroke="red" />
+          <Line type="monotone" dataKey="Малой" stroke="green" />
+          <Line type="monotone" dataKey="Леха" stroke="blue" />
+          <Line type="monotone" dataKey="Серега" stroke="aquamarine" />
+        </LineChart>
+      </ResponsiveContainer>
+    );
+  };
+
+  const RadioDiagramma = () => {
+    return (
+      <form id="mainForm" name="mainForm">
+        <input
+          type="radio"
+          name="diagramma"
+          value="Line"
+          checked={activeDiagramma === "Line"}
+          onChange={handleChange}
+        ></input>
+        <input
+          type="radio"
+          name="diagramma"
+          value="Bar"
+          checked={activeDiagramma === "Bar"}
+          onChange={handleChange}
+        ></input>
+      </form>
+    );
+  };
 
   const Pagination = ({ pidorPerPage, totalPidor }) => {
     const pageNumbers = [];
@@ -296,53 +410,15 @@ export default function Statistic() {
           );
         })}
       </div>
+      {activeDiagramma === "Line" ? (
+        <DiagrammaLine data={newPidorStats} />
+      ) : (
+        <DiagrammaBar data={newPidorStats} />
+      )}
+
+      <RadioDiagramma />
 
       <Pagination pidorPerPage={pidorPerPage} totalPidor={totalPidor} />
-
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart
-          width={500}
-          height={300}
-          data={newPidorGroup}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="time" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar
-            dataKey="Yarik"
-            fill="orange"
-            activeBar={<Rectangle fill="orange" stroke="orange" />}
-          />
-          <Bar
-            dataKey="Sanya"
-            fill="red"
-            activeBar={<Rectangle fill="red" stroke="red" />}
-          />
-          <Bar
-            dataKey="Dima"
-            fill="green"
-            activeBar={<Rectangle fill="green" stroke="green" />}
-          />
-          <Bar
-            dataKey="Leha"
-            fill="blue"
-            activeBar={<Rectangle fill="blue" stroke="blue" />}
-          />
-          <Bar
-            dataKey="Seroga"
-            fill="aquamarine"
-            activeBar={<Rectangle fill="aquamarine" stroke="aquamarine" />}
-          />
-        </BarChart>
-      </ResponsiveContainer>
     </>
   );
 }
