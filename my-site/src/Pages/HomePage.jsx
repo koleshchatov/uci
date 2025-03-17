@@ -5,7 +5,7 @@ import PidorModal from "/Components/PidorModal.jsx";
 import Title from "/Components/Title.jsx";
 
 export default function HomePage() {
-  console.log(" pashalka HUI");
+  console.log(" pashalka HUI 2");
   return (
     <>
       <Title />
