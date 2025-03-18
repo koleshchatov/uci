@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment, PureComponent } from "react";
 import styles from "./StatisticTable.module.css";
-import { resolvePath } from "react-router-dom";
+
 import { PidorPull } from "./PullPidors";
 import {
   LineChart,
