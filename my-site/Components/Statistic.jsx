@@ -76,13 +76,13 @@ export default function Statistic() {
 
   const DiagrammaBar = ({ data }) => {
     return (
-      <ResponsiveContainer width="100%" aspect={3}>
+      <ResponsiveContainer width="100%" aspect={2}>
         <BarChart
           width={500}
           height={300}
           data={data}
           margin={{
-            top: 5,
+            top: 200,
             right: 30,
             left: 20,
             bottom: 5,
@@ -125,20 +125,20 @@ export default function Statistic() {
 
   const DiagrammaLine = ({ data }) => {
     return (
-      <ResponsiveContainer width="100%" aspect={3}>
+      <ResponsiveContainer width="100%" aspect={2}>
         <LineChart
           width={500}
           height={300}
           data={data}
           margin={{
-            top: 5,
+            top: 200,
             right: 30,
             left: 20,
             bottom: 5,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
+          <XAxis dataKey="time" />
           <YAxis />
           <Tooltip />
           <Legend />
@@ -396,6 +396,13 @@ export default function Statistic() {
 
   return (
     <>
+      {activeDiagramma === "Line" ? (
+        <DiagrammaLine data={newPidorStats} />
+      ) : (
+        <DiagrammaBar data={newPidorStats} />
+      )}
+
+      <RadioDiagramma />
       <div className={styles.container}>
         <div className={styles.id}>Id</div>
         <div className={styles.time}>Time</div>
@@ -410,13 +417,6 @@ export default function Statistic() {
           );
         })}
       </div>
-      {activeDiagramma === "Line" ? (
-        <DiagrammaLine data={newPidorStats} />
-      ) : (
-        <DiagrammaBar data={newPidorStats} />
-      )}
-
-      <RadioDiagramma />
 
       <Pagination pidorPerPage={pidorPerPage} totalPidor={totalPidor} />
     </>
