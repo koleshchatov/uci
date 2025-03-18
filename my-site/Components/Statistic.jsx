@@ -17,33 +17,44 @@ import {
 } from "recharts";
 
 export default function Statistic() {
-  const [pidorStats, setPidorStats] = useState([]);
   const [newPidorStats, setNewPidorStats] = useState([]);
-
+  const [newPidorPagination, setNewPidorPagination] = useState([]);
+  const [pidorStats, setPidorStats] = useState([]);
   const [page, setPage] = useState(1);
-  const [pidorPerPage, setPidorPerPage] = useState(3);
+  const [pidorPerPage, setPidorPerPage] = useState(10);
   const [activeDiagramma, setActiveDiagramma] = useState("Line");
-  const totalPidor = PidorPull.length;
+  const [totalPidor, setTotalPidor] = useState();
 
   useEffect(() => {
     const newPidorPage = (page - 1) * pidorPerPage;
-    const pagePidorPull = PidorPull.slice(
+    const pagePidorPull = newPidorPagination.slice(
       newPidorPage,
       newPidorPage + pidorPerPage
     );
 
     async function getPidorStats() {
       const response = await fetch(
-        "https://api-pidors.tucha-happy-birthsday.ru/api/v1/pidor_stats"
+        "https://api-pidors.tucha-happy-birthsday.ru/api/v1/pidor_stats?sort=asc&start_date=2023-05-10T00:00:00"
       );
       const pidor = await response.json();
       setNewPidorStats(pidor.daily_stats);
     }
     getPidorStats();
+
+    async function getPidorPage() {
+      const response = await fetch(
+        `https://api-pidors.tucha-happy-birthsday.ru/api/v1/pidor?page=${page}&per_page=${pidorPerPage}&sort=asc`
+      );
+      const pidorPage = await response.json();
+      setNewPidorPagination(pidorPage.items);
+      setTotalPidor(pidorPage.pagination.total);
+    }
+
+    getPidorPage();
+
     setPidorStats(pagePidorPull);
   }, [page, pidorPerPage]);
 
-  console.log(newPidorStats);
   function handleClick(number) {
     setPage(number);
   }
@@ -386,9 +397,9 @@ export default function Statistic() {
             setPidorPerPage(Number(e.target.value));
           }}
         >
-          <option value={1}>1 pidorа на page</option>
-          <option value={2}>2 pidorа на page</option>
-          <option value={3}>3 pidorа на page</option>
+          <option value={10}>10 pidorа на page</option>
+          <option value={20}>20 pidorа на page</option>
+          <option value={30}>30 pidorа на page</option>
         </select>
       </div>
     );
@@ -407,12 +418,12 @@ export default function Statistic() {
         <div className={styles.id}>Id</div>
         <div className={styles.time}>Time</div>
         <div className={styles.name}>Name</div>
-        {pidorStats.map((pidor) => {
+        {newPidorPagination.map((pidor) => {
           return (
             <Fragment key={pidor.id}>
               <div>{pidor.id}</div>
-              <div>{new Date(pidor.time).toLocaleString()}</div>
-              <div>{pidor.name}</div>
+              <div>{new Date(pidor.date).toLocaleString()}</div>
+              <div>{pidor.user.name}</div>
             </Fragment>
           );
         })}
