@@ -15,7 +15,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-
+//hui
 export default function Statistic() {
   const [newPidorStats, setNewPidorStats] = useState([]);
   const [newPidorPagination, setNewPidorPagination] = useState([]);
