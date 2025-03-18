@@ -1,7 +1,7 @@
-import React, { useState, useEffect, Fragment, PureComponent } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import styles from "./StatisticTable.module.css";
-
-import { PidorPull } from "./PullPidors";
+// вынеси все стили в классы
+import { PidorPull } from "./PullPidors"; // нах нужна?
 import {
   LineChart,
   Line,
@@ -19,7 +19,7 @@ import {
 export default function Statistic() {
   const [newPidorStats, setNewPidorStats] = useState([]);
   const [newPidorPagination, setNewPidorPagination] = useState([]);
-  const [pidorStats, setPidorStats] = useState([]);
+  const [pidorStats, setPidorStats] = useState([]); // нах нужна?
   const [page, setPage] = useState(1);
   const [pidorPerPage, setPidorPerPage] = useState(10);
   const [activeDiagramma, setActiveDiagramma] = useState("Line");
@@ -34,7 +34,7 @@ export default function Statistic() {
 
     async function getPidorStats() {
       const response = await fetch(
-        "https://api-pidors.tucha-happy-birthsday.ru/api/v1/pidor_stats?sort=asc&start_date=2023-05-10T00:00:00"
+        "https://api-pidors.tucha-happy-birthsday.ru/api/v1/pidor_stats?sort=asc&start_date=2023-05-10T00:00:00" // создать свой фетч чтобы было удобно делать запросы -> сделать отдельные сервисы откуда будешь импортировать запросы
       );
       const pidor = await response.json();
       setNewPidorStats(pidor.daily_stats);
@@ -64,8 +64,11 @@ export default function Statistic() {
 
   const newPidorGroup = [];
 
-  const pidorGroup = Object.groupBy(PidorPull, ({ time }) =>
-    new Date(time).toDateString()
+  const pidorGroup = Object.groupBy(
+    PidorPull,
+    (
+      { time } // нах нужна?
+    ) => new Date(time).toDateString()
   );
 
   function countPidorsName(value) {
@@ -104,7 +107,7 @@ export default function Statistic() {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar
+          <Bar // сделать гибко исходя из массива цветов и запросу к /users
             dataKey="Ярик"
             fill="orange"
             activeBar={<Rectangle fill="orange" stroke="orange" />}
@@ -146,7 +149,7 @@ export default function Statistic() {
             right: 30,
             left: 20,
             bottom: 5,
-          }}
+          }} // сделать гибко исходя из массива цветов и запросу к /users
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="time" />
