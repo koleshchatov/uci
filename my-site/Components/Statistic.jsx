@@ -1,7 +1,5 @@
-import React, { useState, useEffect, Fragment, PureComponent } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import styles from "./StatisticTable.module.css";
-
-import { PidorPull } from "./PullPidors";
 import {
   LineChart,
   Line,
@@ -19,28 +17,12 @@ import {
 export default function Statistic() {
   const [newPidorStats, setNewPidorStats] = useState([]);
   const [newPidorPagination, setNewPidorPagination] = useState([]);
-  const [pidorStats, setPidorStats] = useState([]);
   const [page, setPage] = useState(1);
   const [pidorPerPage, setPidorPerPage] = useState(10);
   const [activeDiagramma, setActiveDiagramma] = useState("Line");
   const [totalPidor, setTotalPidor] = useState();
 
   useEffect(() => {
-    const newPidorPage = (page - 1) * pidorPerPage;
-    const pagePidorPull = newPidorPagination.slice(
-      newPidorPage,
-      newPidorPage + pidorPerPage
-    );
-
-    async function getPidorStats() {
-      const response = await fetch(
-        "https://api-pidors.tucha-happy-birthsday.ru/api/v1/pidor_stats?sort=asc&start_date=2023-05-10T00:00:00"
-      );
-      const pidor = await response.json();
-      setNewPidorStats(pidor.daily_stats);
-    }
-    getPidorStats();
-
     async function getPidorPage() {
       const response = await fetch(
         `https://api-pidors.tucha-happy-birthsday.ru/api/v1/pidor?page=${page}&per_page=${pidorPerPage}&sort=asc`
@@ -51,9 +33,18 @@ export default function Statistic() {
     }
 
     getPidorPage();
-
-    setPidorStats(pagePidorPull);
   }, [page, pidorPerPage]);
+
+  useEffect(() => {
+    async function getPidorStats() {
+      const response = await fetch(
+        "https://api-pidors.tucha-happy-birthsday.ru/api/v1/pidor_stats?sort=asc&start_date=2023-05-10T00:00:00"
+      );
+      const pidor = await response.json();
+      setNewPidorStats(pidor.daily_stats);
+    }
+    getPidorStats();
+  }, []);
 
   function handleClick(number) {
     setPage(number);
@@ -61,29 +52,6 @@ export default function Statistic() {
   function handleChange(e) {
     setActiveDiagramma(e.target.value);
   }
-
-  const newPidorGroup = [];
-
-  const pidorGroup = Object.groupBy(PidorPull, ({ time }) =>
-    new Date(time).toDateString()
-  );
-
-  function countPidorsName(value) {
-    const pidorName = { Yarik: 0, Sanya: 0, Dima: 0, Seroga: 0, Leha: 0 };
-
-    for (const item of value) {
-      if (pidorName[item.name]) {
-        pidorName[item.name] += 1;
-      } else pidorName[item.name] = 1;
-    }
-    return pidorName;
-  }
-
-  Object.entries(pidorGroup).forEach(([key, value]) => {
-    const countPidors = countPidorsName(value);
-    countPidors.time = key;
-    newPidorGroup.push(countPidors);
-  });
 
   const DiagrammaBar = ({ data }) => {
     return (
