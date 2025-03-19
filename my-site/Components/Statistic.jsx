@@ -72,7 +72,7 @@ export default function Statistic() {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar
+          <Bar // сделать гибко исходя из массива цветов и запросу к /users
             dataKey="Ярик"
             fill="orange"
             activeBar={<Rectangle fill="orange" stroke="orange" />}
@@ -114,7 +114,7 @@ export default function Statistic() {
             right: 30,
             left: 20,
             bottom: 5,
-          }}
+          }} // сделать гибко исходя из массива цветов и запросу к /users
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="time" />
