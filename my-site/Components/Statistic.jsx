@@ -24,6 +24,7 @@ export default function Statistic() {
   const [activeDiagramma, setActiveDiagramma] = useState("Line");
   const [totalPidor, setTotalPidor] = useState();
   const colors = [
+    // вынеси в конфиг отдельный hui
     "#FF0000", // Bright Red
     "#00FF00", // Lime Green
     "#0000FF", // Blue
