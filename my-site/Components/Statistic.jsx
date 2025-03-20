@@ -13,6 +13,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { fetchData } from "./utils";
 
 export default function Statistic() {
   const [newPidorStats, setNewPidorStats] = useState([]);
@@ -44,7 +45,7 @@ export default function Statistic() {
       setNewPidorPagination(pidorPage.items);
       setTotalPidor(pidorPage.pagination.total);
     }
-
+    fetchData;
     getPidorPage();
   }, [page, pidorPerPage]);
 
