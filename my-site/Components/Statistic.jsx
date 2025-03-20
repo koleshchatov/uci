@@ -38,14 +38,15 @@ export default function Statistic() {
 
   useEffect(() => {
     async function getPidorPage() {
-      const response = await fetch(
-        `https://api-pidors.tucha-happy-birthsday.ru/api/v1/pidor?page=${page}&per_page=${pidorPerPage}&sort=asc`
-      );
-      const pidorPage = await response.json();
-      setNewPidorPagination(pidorPage.items);
-      setTotalPidor(pidorPage.pagination.total);
+      const pidor = await fetchData({
+        path: "/pidor",
+        urlParamsObject: { page: page, per_page: pidorPerPage },
+      });
+
+      setNewPidorPagination(pidor.data.items);
+      setTotalPidor(pidor.data.pagination.total);
     }
-    fetchData;
+
     getPidorPage();
   }, [page, pidorPerPage]);
 
