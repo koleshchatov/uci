@@ -14,28 +14,17 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { fetchData } from "./utils";
+import { colors } from "./Colors";
 
 export default function Statistic() {
   const [newPidorStats, setNewPidorStats] = useState([]);
   const [newPidorPagination, setNewPidorPagination] = useState([]);
+  const [pidorWithColor, setPidorWithColor] = useState([]);
   const [pidorPie, setPidorPie] = useState([]);
   const [page, setPage] = useState(1);
   const [pidorPerPage, setPidorPerPage] = useState(10);
   const [activeDiagramma, setActiveDiagramma] = useState("Line");
   const [totalPidor, setTotalPidor] = useState();
-  const colors = [
-    // вынеси в конфиг отдельный hui
-    "#FF0000", // Bright Red
-    "#00FF00", // Lime Green
-    "#0000FF", // Blue
-    "#FFFF00", // Yellow
-    "#FF00FF", // Magenta
-    "#00FFFF", // Cyan
-    "#FF4500", // Orange Red
-    "#8A2BE2", // Blue Violet
-    "#00FF7F", // Spring Green
-    "#FF1493", // Deep Pink
-  ];
 
   useEffect(() => {
     async function getPidorPage() {
@@ -53,12 +42,29 @@ export default function Statistic() {
 
   useEffect(() => {
     async function getPidorStats() {
+      const users = await fetchData({
+        path: "/users",
+      });
       const diagrammaStats = await fetchData({
         path: "/pidor_stats",
       });
 
+      const dataUsersColors = users.data.items;
+
+      const usersColor = (value) => {
+        const userColor = {};
+        for (let i = 0; i < value.length; i++) {
+          userColor[value[i].name] = colors[i];
+        }
+        return userColor;
+      };
+
+      const newUserColor = usersColor(dataUsersColors);
+      setPidorWithColor(newUserColor);
+
       setNewPidorStats(diagrammaStats.data.daily_stats);
     }
+
     getPidorStats();
   }, []);
 
@@ -69,7 +75,7 @@ export default function Statistic() {
     setActiveDiagramma(e.target.value);
   }
 
-  const DiagrammaBar = ({ data }) => {
+  const DiagrammaBar = ({ data, pidorColors }) => {
     return (
       <ResponsiveContainer width="100%" aspect={2}>
         <BarChart
@@ -88,37 +94,20 @@ export default function Statistic() {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar // сделать гибко исходя из массива цветов и запросу к /users
-            dataKey="Ярик"
-            fill="orange"
-            activeBar={<Rectangle fill="orange" stroke="orange" />}
-          />
-          <Bar
-            dataKey="Саня"
-            fill="red"
-            activeBar={<Rectangle fill="red" stroke="red" />}
-          />
-          <Bar
-            dataKey="Малой"
-            fill="green"
-            activeBar={<Rectangle fill="green" stroke="green" />}
-          />
-          <Bar
-            dataKey="Леха"
-            fill="blue"
-            activeBar={<Rectangle fill="blue" stroke="blue" />}
-          />
-          <Bar
-            dataKey="Серега"
-            fill="aquamarine"
-            activeBar={<Rectangle fill="aquamarine" stroke="aquamarine" />}
-          />
+          {Object.entries(pidorColors).map(([key, value]) => (
+            <Bar
+              dataKey={key}
+              fill={value}
+              activeBar={<Rectangle fill={value} stroke={value} />}
+              key={key}
+            />
+          ))}
         </BarChart>
       </ResponsiveContainer>
     );
   };
 
-  const DiagrammaLine = ({ data }) => {
+  const DiagrammaLine = ({ data, pidorColors }) => {
     return (
       <ResponsiveContainer width="100%" aspect={2}>
         <LineChart
@@ -130,18 +119,16 @@ export default function Statistic() {
             right: 30,
             left: 20,
             bottom: 5,
-          }} // сделать гибко исходя из массива цветов и запросу к /users
+          }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="time" />
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="Ярик" stroke="orange" />
-          <Line type="monotone" dataKey="Саня" stroke="red" />
-          <Line type="monotone" dataKey="Малой" stroke="green" />
-          <Line type="monotone" dataKey="Леха" stroke="blue" />
-          <Line type="monotone" dataKey="Серега" stroke="aquamarine" />
+          {Object.entries(pidorColors).map(([key, value]) => (
+            <Line type="monotone" dataKey={key} stroke={value} key={key} />
+          ))}
         </LineChart>
       </ResponsiveContainer>
     );
@@ -392,9 +379,9 @@ export default function Statistic() {
   return (
     <>
       {activeDiagramma === "Line" ? (
-        <DiagrammaLine data={newPidorStats} />
+        <DiagrammaLine data={newPidorStats} pidorColors={pidorWithColor} />
       ) : (
-        <DiagrammaBar data={newPidorStats} />
+        <DiagrammaBar data={newPidorStats} pidorColors={pidorWithColor} />
       )}
 
       <RadioDiagramma />
