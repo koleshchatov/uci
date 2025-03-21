@@ -47,6 +47,7 @@ export default function Statistic() {
       });
       const diagrammaStats = await fetchData({
         path: "/pidor_stats",
+        urlParamsObject: { sort: "desc" },
       });
 
       const dataUsersColors = users.data.items;
