@@ -40,7 +40,7 @@ export default function Statistic() {
     async function getPidorPage() {
       const pidor = await fetchData({
         path: "/pidor",
-        urlParamsObject: { page: page, per_page: pidorPerPage },
+        urlParamsObject: { page: page, per_page: pidorPerPage, sort: "desc" },
       });
 
       setNewPidorPagination(pidor.data.items);
@@ -52,11 +52,11 @@ export default function Statistic() {
 
   useEffect(() => {
     async function getPidorStats() {
-      const response = await fetch(
-        "https://api-pidors.tucha-happy-birthsday.ru/api/v1/pidor_stats?sort=asc&start_date=2023-05-10T00:00:00"
-      );
-      const pidor = await response.json();
-      setNewPidorStats(pidor.daily_stats);
+      const diagrammaStats = await fetchData({
+        path: "/pidor_stats",
+      });
+
+      setNewPidorStats(diagrammaStats.data.daily_stats);
     }
     getPidorStats();
   }, []);
