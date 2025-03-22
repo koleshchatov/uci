@@ -1,6 +1,9 @@
 import React, { useState, useEffect, Fragment } from "react";
 import styles from "./StatisticTable.module.css";
 import {
+  Cell,
+  PieChart,
+  Pie,
   LineChart,
   Line,
   BarChart,
@@ -47,10 +50,16 @@ export default function Statistic() {
       });
       const diagrammaStats = await fetchData({
         path: "/pidor_stats",
-        urlParamsObject: { sort: "desc" },
+        urlParamsObject: { sort: "asc" },
+      });
+
+      const totalPidorPie = await fetchData({
+        path: "/pidor_stats",
+        urlParamsObject: { full: "true" },
       });
 
       const dataUsersColors = users.data.items;
+      
 
       const usersColor = (value) => {
         const userColor = {};
@@ -61,9 +70,13 @@ export default function Statistic() {
       };
 
       const newUserColor = usersColor(dataUsersColors);
-      setPidorWithColor(newUserColor);
 
+
+
+
+      setPidorWithColor(newUserColor);
       setNewPidorStats(diagrammaStats.data.daily_stats);
+      setPidorPie(totalPidorPie.data.stats)
     }
 
     getPidorStats();
@@ -135,6 +148,44 @@ export default function Statistic() {
     );
   };
 
+  const RADIAN = Math.PI / 180;
+  const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+  
+    return (
+      <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+        {`${(percent * 100).toFixed(0)}%`}
+      </text>
+    );
+  };
+
+  const DiagrammaPie = ({ data }) => {
+    return (
+      <ResponsiveContainer width="100%" aspect={2}>
+          <PieChart width={400} height={400}>
+          <Pie
+            data={data}
+            cx="50%"
+            cy="50%"
+            labelLine={false}
+            label={renderCustomizedLabel}
+            outerRadius={250}
+            fill="#8884d8"
+            dataKey="count"
+            
+          >
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`}  fill={colors[index % colors.length]} />
+            ))}
+           
+          </Pie>
+        </PieChart>
+      </ResponsiveContainer>
+    );
+  };
+
   const RadioDiagramma = () => {
     return (
       <form id="mainForm" name="mainForm">
@@ -150,6 +201,13 @@ export default function Statistic() {
           name="diagramma"
           value="Bar"
           checked={activeDiagramma === "Bar"}
+          onChange={handleChange}
+        ></input>
+        <input
+          type="radio"
+          name="diagramma"
+          value="Pie"
+          checked={activeDiagramma === "Pie"}
           onChange={handleChange}
         ></input>
       </form>
@@ -381,9 +439,9 @@ export default function Statistic() {
     <>
       {activeDiagramma === "Line" ? (
         <DiagrammaLine data={newPidorStats} pidorColors={pidorWithColor} />
-      ) : (
+      ) : activeDiagramma === "Bar" ? (
         <DiagrammaBar data={newPidorStats} pidorColors={pidorWithColor} />
-      )}
+      ) : (<DiagrammaPie data={pidorPie}/>)}
 
       <RadioDiagramma />
       <div className={styles.container}>
