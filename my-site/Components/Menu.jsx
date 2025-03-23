@@ -8,7 +8,7 @@ export default function Menu() {
         <div className={styles.headerLogo}>
           <Link to={"/"}>
             <img
-              src="public/лого.jpg"
+              src="public/лого.png"
               alt="logo"
               className={styles.imageLogo}
             />

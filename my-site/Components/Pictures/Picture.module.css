@@ -2,33 +2,26 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  padding: 2px;
-  background: aquamarine;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease;
 }
 
-.block {
-  box-sizing: border-box;
-  width: 100%;
-  height: 500px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
+.picture:hover {
+  transform: scale(1.03);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 /* Медиа запрос для мобильных устройств */
 @media screen and (max-width: 768px) {
-  .block {
-    height: 300px; /* Уменьшенная высота для мобильных */
-    padding: 10px;
-  }
-
   .picture {
-    padding: 1px;
+    border-width: 1px;
   }
 }
 
 /* Для очень маленьких экранов */
 @media screen and (max-width: 480px) {
-  .block {
-    height: 200px;
+  .picture {
+    border-radius: 6px;
   }
 }

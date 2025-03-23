@@ -99,6 +99,10 @@
     padding: 1.2em;
     width: 100%;
   }
+
+  .photoGrid {
+    gap: 10px;
+  }
 }
 
 /* Маленькие смартфоны (до 576px) */
@@ -119,4 +123,30 @@
   .read-the-docs {
     font-size: 0.9em;
   }
+
+  .photoGrid {
+    gap: 8px;
+    padding: 0 0.5rem;
+  }
+}
+
+.photoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 0 1rem;
+}
+
+.photoGrid img {
+  width: 100%;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.photoGrid img:hover {
+  transform: scale(1.03);
+  border-color: rgba(255, 255, 255, 0.5);
 }

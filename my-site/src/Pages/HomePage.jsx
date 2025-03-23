@@ -10,7 +10,8 @@ export default function HomePage() {
       <div className="home-container">
         <Title />
 
-        <div className="container">
+        {/* Замените container на photoGrid */}
+        <div className="photoGrid">
           {Object.entries(ImageContainer).map(([key, value]) => (
             <Picture image={value} key={key} />
           ))}
