@@ -7,15 +7,16 @@ import Title from "/Components/Title.jsx";
 export default function HomePage() {
   return (
     <>
-      <Title />
+      <div className="home-container">
+        <Title />
 
-      <div style={{ display: "flex" }}>
-        {Object.entries(ImageContainer).map(([key, value]) => (
-          <Picture image={value} key={key} />
-        ))}
+        <div className="container">
+          {Object.entries(ImageContainer).map(([key, value]) => (
+            <Picture image={value} key={key} />
+          ))}
+        </div>
+        <PidorModal />
       </div>
-
-      <PidorModal />
     </>
   );
 }

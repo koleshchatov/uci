@@ -1,22 +1,170 @@
+/* CSS модуль для таблицы и пагинации */
+
 .container {
-  padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.table {
   display: grid;
-  grid-template-columns: repeat(3, 500px);
-  gap: 10px;
-  font-size: 30px;
-  font-family: "Times New Roman", Times, serif;
+  width: 100%;
+  grid-template-columns: 1fr 5fr 1fr;
+  gap: 12px;
+  font-size: 18px;
+  font-family: "Arial", sans-serif;
   background: none;
-  grid-template-areas: "id time name";
+  padding-top: 30px;
+  margin-bottom: 20px;
+  margin: 0 auto;
 }
 
-.id {
-  grid-area: id;
-}
-
-.time {
-  grid-area: time;
-}
-
+.id,
+.time,
 .name {
-  grid-area: name;
+  padding: 10px;
+  font-weight: bold;
+  border-bottom: 1px solid #444;
+  text-align: center;
+}
+
+.table > div {
+  padding: 10px;
+  border-bottom: 1px solid #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* Стили для пагинации */
+.paginationContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  font-size: 16px;
+  width: 100%;
+}
+
+.paginationButton {
+  padding: 8px 16px;
+  color: white;
+  border: none;
+  /* border-radius: 32px; */
+  cursor: pointer;
+  margin: 0 5px;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+.paginationButton:hover {
+  background-color: grey;
+  color: white;
+}
+
+.paginationButton.active {
+  background-color: grey;
+  color: white;
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.paginationDots {
+  margin: 0 5px;
+  font-size: 16px;
+}
+
+.paginationSelect {
+  padding: 8px 12px;
+  color: white;
+  border: none;
+  margin-left: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* Медиа запросы */
+@media (max-width: 992px) {
+  .table {
+    font-size: 16px;
+    gap: 8px;
+  }
+
+  .paginationButton {
+    padding: 6px 12px;
+    font-size: 14px;
+    margin: 0 3px;
+  }
+
+  .paginationSelect {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .table {
+    grid-template-columns: 60px 1fr 1fr;
+    font-size: 14px;
+    gap: 6px;
+  }
+
+  .table > div {
+    padding: 8px 6px;
+  }
+
+  .paginationContainer {
+    flex-wrap: wrap;
+  }
+
+  .paginationButton {
+    padding: 5px 10px;
+    font-size: 13px;
+    margin: 0 2px;
+  }
+
+  .paginationDots {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  .table {
+    grid-template-columns: 50px 1fr 80px;
+    font-size: 13px;
+    gap: 4px;
+    width: 100%;
+  }
+
+  .table > div {
+    padding: 6px 4px;
+  }
+
+  .paginationButton {
+    padding: 4px 8px;
+    font-size: 12px;
+    min-width: 30px;
+  }
+
+  .paginationSelect {
+    margin-top: 10px;
+    width: 100%;
+    max-width: 200px;
+    font-size: 12px;
+  }
 }

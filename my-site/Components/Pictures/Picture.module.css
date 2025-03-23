@@ -1,18 +1,34 @@
-
 .picture {
-    width: 400px;
-    height: 600px ;
-    object-fit: cover;
-    padding: 2px;
-    margin: 20px;
-    background: aquamarine;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  padding: 2px;
+  background: aquamarine;
 }
 
 .block {
-    box-sizing: border-box;
-    width: 100%;
-    padding: 20px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  height: 500px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
 }
 
+/* Медиа запрос для мобильных устройств */
+@media screen and (max-width: 768px) {
+  .block {
+    height: 300px; /* Уменьшенная высота для мобильных */
+    padding: 10px;
+  }
+
+  .picture {
+    padding: 1px;
+  }
+}
+
+/* Для очень маленьких экранов */
+@media screen and (max-width: 480px) {
+  .block {
+    height: 200px;
+  }
+}

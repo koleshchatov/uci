@@ -12,6 +12,9 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
 } from "recharts";
 import { fetchData } from "./utils";
 import { colors } from "./Colors";
@@ -47,8 +50,15 @@ export default function Statistic() {
       });
       const diagrammaStats = await fetchData({
         path: "/pidor_stats",
-        urlParamsObject: { sort: "desc" },
+        urlParamsObject: { sort: "asc" },
       });
+      // Получаем данные для круговой диаграммы с параметром full=true
+      const pieStats = await fetchData({
+        path: "/pidor_stats",
+        urlParamsObject: { full: true },
+      });
+
+      console.log("pieStats >> ", pieStats.data.stats);
 
       const dataUsersColors = users.data.items;
 
@@ -64,6 +74,8 @@ export default function Statistic() {
       setPidorWithColor(newUserColor);
 
       setNewPidorStats(diagrammaStats.data.daily_stats);
+
+      setPidorPie(pieStats.data.stats);
     }
 
     getPidorStats();
@@ -135,6 +147,46 @@ export default function Statistic() {
     );
   };
 
+  const DiagrammaPie = ({ data, pidorColors }) => {
+    console.log("data >> ", data);
+    return (
+      <ResponsiveContainer width="100%" aspect={2}>
+        <PieChart
+          width={500}
+          height={300}
+          margin={{
+            top: 200,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <Tooltip />
+          <Legend />
+          <Pie
+            data={data}
+            cx="50%"
+            cy="50%"
+            labelLine={false}
+            label={({ name, percent }) =>
+              `${name} ${(percent * 100).toFixed(0)}%`
+            }
+            outerRadius={250}
+            fill="#8884d8"
+            dataKey="count"
+          >
+            {data.map((entry, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={pidorColors[entry.name] || colors[index % colors.length]}
+              />
+            ))}
+          </Pie>
+        </PieChart>
+      </ResponsiveContainer>
+    );
+  };
+
   const RadioDiagramma = () => {
     return (
       <form id="mainForm" name="mainForm">
@@ -150,6 +202,13 @@ export default function Statistic() {
           name="diagramma"
           value="Bar"
           checked={activeDiagramma === "Bar"}
+          onChange={handleChange}
+        ></input>
+        <input
+          type="radio"
+          name="diagramma"
+          value="Pie"
+          checked={activeDiagramma === "Pie"}
           onChange={handleChange}
         ></input>
       </form>
@@ -170,6 +229,7 @@ export default function Statistic() {
     for (let i = 1; i <= Math.ceil(totalPidor / pidorPerPage); i++) {
       pageNumbers.push(i);
     }
+
     const renderPaginationButtons = () => {
       const totalPages = Math.ceil(totalPidor / pidorPerPage);
 
@@ -179,13 +239,9 @@ export default function Statistic() {
           <button
             key={number}
             onClick={() => handleClick(number)}
-            style={{
-              backgroundColor: page === number ? "#555" : "grey",
-              margin: "0 5px",
-              padding: "5px 15px",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
+            className={`${styles.paginationButton} ${
+              page === number ? styles.active : ""
+            }`}
           >
             {number}
           </button>
@@ -200,13 +256,9 @@ export default function Statistic() {
         <button
           key={1}
           onClick={() => handleClick(1)}
-          style={{
-            backgroundColor: page === 1 ? "#555" : "grey",
-            margin: "0 5px",
-            padding: "5px 15px",
-            borderRadius: "5px",
-            cursor: "pointer",
-          }}
+          className={`${styles.paginationButton} ${
+            page === 1 ? styles.active : ""
+          }`}
         >
           1
         </button>
@@ -225,7 +277,7 @@ export default function Statistic() {
       // Добавляем многоточие слева, если нужно
       if (shouldShowLeftDots) {
         items.push(
-          <span key="left-dots" style={{ margin: "0 5px", fontSize: "40px" }}>
+          <span key="left-dots" className={styles.paginationDots}>
             ...
           </span>
         );
@@ -234,13 +286,9 @@ export default function Statistic() {
           <button
             key={2}
             onClick={() => handleClick(2)}
-            style={{
-              backgroundColor: page === 2 ? "#555" : "grey",
-              margin: "0 5px",
-              padding: "5px 15px",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
+            className={`${styles.paginationButton} ${
+              page === 2 ? styles.active : ""
+            }`}
           >
             2
           </button>
@@ -255,13 +303,9 @@ export default function Statistic() {
             <button
               key={i}
               onClick={() => handleClick(i)}
-              style={{
-                backgroundColor: page === i ? "#555" : "grey",
-                margin: "0 5px",
-                padding: "5px 15px",
-                borderRadius: "5px",
-                cursor: "pointer",
-              }}
+              className={`${styles.paginationButton} ${
+                page === i ? styles.active : ""
+              }`}
             >
               {i}
             </button>
@@ -272,7 +316,7 @@ export default function Statistic() {
       // Добавляем многоточие справа, если нужно
       if (shouldShowRightDots) {
         items.push(
-          <span key="right-dots" style={{ margin: "0 5px", fontSize: "40px" }}>
+          <span key="right-dots" className={styles.paginationDots}>
             ...
           </span>
         );
@@ -281,13 +325,9 @@ export default function Statistic() {
           <button
             key={totalPages - 1}
             onClick={() => handleClick(totalPages - 1)}
-            style={{
-              backgroundColor: page === totalPages - 1 ? "#555" : "grey",
-              margin: "0 5px",
-              padding: "5px 15px",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
+            className={`${styles.paginationButton} ${
+              page === totalPages - 1 ? styles.active : ""
+            }`}
           >
             {totalPages - 1}
           </button>
@@ -300,13 +340,9 @@ export default function Statistic() {
           <button
             key={totalPages}
             onClick={() => handleClick(totalPages)}
-            style={{
-              backgroundColor: page === totalPages ? "#555" : "grey",
-              margin: "0 5px",
-              padding: "5px 15px",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
+            className={`${styles.paginationButton} ${
+              page === totalPages ? styles.active : ""
+            }`}
           >
             {totalPages}
           </button>
@@ -317,23 +353,12 @@ export default function Statistic() {
     };
 
     return (
-      <div
-        style={{
-          display: "flex",
-          fontSize: 40,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
+      <div className={styles.paginationContainer}>
         <button
           onClick={prevPage}
-          style={{
-            padding: "5px 15px",
-            borderRadius: "5px",
-            margin: "0 10px",
-            cursor: page === 1 ? "not-allowed" : "pointer",
-            opacity: page === 1 ? 0.5 : 1,
-          }}
+          className={`${styles.paginationButton} ${
+            page === 1 ? styles.disabled : ""
+          }`}
         >
           prev
         </button>
@@ -342,27 +367,15 @@ export default function Statistic() {
 
         <button
           onClick={nextPage}
-          style={{
-            padding: "5px 15px",
-            borderRadius: "5px",
-            margin: "0 10px",
-            cursor: page === pageNumbers.length ? "not-allowed" : "pointer",
-            opacity: page === pageNumbers.length ? 0.5 : 1,
-          }}
+          className={`${styles.paginationButton} ${
+            page === pageNumbers.length ? styles.disabled : ""
+          }`}
         >
           next
         </button>
+
         <select
-          style={{
-            width: 400,
-            height: 100,
-            fontSize: 40,
-            backgroundColor: "grey",
-            textAlign: "center",
-            marginLeft: 30,
-            justifyContent: "center",
-            borderRadius: 10,
-          }}
+          className={styles.paginationSelect}
           value={pidorPerPage}
           onChange={(e) => {
             setPage(1);
@@ -381,24 +394,28 @@ export default function Statistic() {
     <>
       {activeDiagramma === "Line" ? (
         <DiagrammaLine data={newPidorStats} pidorColors={pidorWithColor} />
-      ) : (
+      ) : activeDiagramma === "Bar" ? (
         <DiagrammaBar data={newPidorStats} pidorColors={pidorWithColor} />
+      ) : (
+        <DiagrammaPie data={pidorPie} pidorColors={pidorWithColor} />
       )}
 
-      <RadioDiagramma />
       <div className={styles.container}>
-        <div className={styles.id}>Id</div>
-        <div className={styles.time}>Time</div>
-        <div className={styles.name}>Name</div>
-        {newPidorPagination.map((pidor) => {
-          return (
-            <Fragment key={pidor.id}>
-              <div>{pidor.id}</div>
-              <div>{new Date(pidor.date).toLocaleString()}</div>
-              <div>{pidor.user.name}</div>
-            </Fragment>
-          );
-        })}
+        <RadioDiagramma />
+        <div className={styles.table}>
+          <div className={styles.id}>Id</div>
+          <div className={styles.time}>Time</div>
+          <div className={styles.name}>Name</div>
+          {newPidorPagination.map((pidor) => {
+            return (
+              <Fragment key={pidor.id}>
+                <div>{pidor.id}</div>
+                <div>{new Date(pidor.date).toLocaleString()}</div>
+                <div>{pidor.user.name}</div>
+              </Fragment>
+            );
+          })}
+        </div>
       </div>
 
       <Pagination pidorPerPage={pidorPerPage} totalPidor={totalPidor} />
