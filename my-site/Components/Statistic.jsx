@@ -59,28 +59,36 @@ export default function Statistic() {
       });
 
       const dataUsersColors = users.data.items;
-      
+      const dataUsersPie = totalPidorPie.data.stats
 
       const usersColor = (value) => {
         const userColor = {};
         for (let i = 0; i < value.length; i++) {
           userColor[value[i].name] = colors[i];
+          
         }
         return userColor;
       };
 
+
+
+    
+
       const newUserColor = usersColor(dataUsersColors);
-
-
-
-
+  
+      
       setPidorWithColor(newUserColor);
       setNewPidorStats(diagrammaStats.data.daily_stats);
-      setPidorPie(totalPidorPie.data.stats)
+      setPidorPie(dataUsersPie)
+
+
+            
     }
 
     getPidorStats();
   }, []);
+
+
 
   function handleClick(number) {
     setPage(number);
@@ -148,36 +156,29 @@ export default function Statistic() {
     );
   };
 
-  const RADIAN = Math.PI / 180;
-  const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
-  
-    return (
-      <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-        {`${(percent * 100).toFixed(0)}%`}
-      </text>
-    );
-  };
+ 
 
-  const DiagrammaPie = ({ data }) => {
+  const DiagrammaPie = ({ data, pidorColors }) => {
     return (
       <ResponsiveContainer width="100%" aspect={2}>
           <PieChart width={400} height={400}>
+            <Tooltip/>
+            <Legend/>
           <Pie
             data={data}
             cx="50%"
             cy="50%"
             labelLine={false}
-            label={renderCustomizedLabel}
+            label={({name, percent}) => `${name} ${(percent*100).toFixed(0)}%`}
             outerRadius={250}
             fill="#8884d8"
             dataKey="count"
             
+            
+            
           >
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`}  fill={colors[index % colors.length]} />
+            {Object.entries(data).map(([key, value]) => (
+              <Cell key={key} fill={pidorColors[value.name]}  />
             ))}
            
           </Pie>
@@ -441,7 +442,7 @@ export default function Statistic() {
         <DiagrammaLine data={newPidorStats} pidorColors={pidorWithColor} />
       ) : activeDiagramma === "Bar" ? (
         <DiagrammaBar data={newPidorStats} pidorColors={pidorWithColor} />
-      ) : (<DiagrammaPie data={pidorPie}/>)}
+      ) : (<DiagrammaPie data={pidorPie} pidorColors={pidorWithColor}/>)}
 
       <RadioDiagramma />
       <div className={styles.container}>
