@@ -64,6 +64,7 @@ export default function HomePage() {
           {Object.entries(ImageContainer).map(([key, value]) => (
             <Picture
               image={value}
+              name={key}
               key={key}
               isChampion={
                 todaysPidor &&
