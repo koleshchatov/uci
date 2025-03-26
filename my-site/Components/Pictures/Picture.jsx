@@ -1,7 +1,16 @@
 import styles from "./Picture.module.css";
-import React from "react";
+import React, { useState } from "react";
 
-export default function Picture({ image, isChampion }) {
+export default function Picture({ image, isChampion, name }) {
+  const [showVideo, setShowVideo] = useState(false);
+
+  const handleClick = () => {
+    setShowVideo(!showVideo);
+  };
+
+  // Формируем путь к видео на основе имени
+  const videoPath = `./public/${name}.MP4`;
+
   return (
     <div className={styles.pictureContainer}>
       {isChampion && (
@@ -15,13 +24,34 @@ export default function Picture({ image, isChampion }) {
           </svg>
         </div>
       )}
-      <img
-        src={image}
-        className={`${styles.picture} ${
-          isChampion ? styles.championPicture : ""
-        }`}
-        alt="Здесь фотка пидора"
-      />
+
+      {showVideo ? (
+        <video
+          className={`${styles.video} ${
+            isChampion ? styles.championPicture : ""
+          }`}
+          src={videoPath}
+          autoPlay
+          loop
+          onClick={handleClick}
+        />
+      ) : (
+        <img
+          src={image}
+          className={`${styles.picture} ${
+            isChampion ? styles.championPicture : ""
+          }`}
+          alt="Здесь фотка пидора"
+          onClick={handleClick}
+        />
+      )}
     </div>
   );
 }
+
+export const ImageContainer = {
+  aleksey: "./public/алеша.jpg",
+  dmitrii: "./public/Малой.jpeg",
+  alexandr: "./public/Саня.jpg",
+  yarik: "./public/ярик.jpg",
+};
