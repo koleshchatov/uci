@@ -1,3 +1,12 @@
+.pictureContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .picture {
   width: 100%;
   height: 100%;
@@ -12,10 +21,47 @@
   border-color: rgba(255, 255, 255, 0.5);
 }
 
+.championPicture {
+  border: 4px solid gold;
+  box-shadow: 0 0 15px gold;
+}
+
+.crown {
+  position: absolute;
+  top: -15px;
+  left: -10px;
+  z-index: 10;
+  transform: rotate(-15deg);
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.7));
+  width: 40px;
+  height: 40px;
+  animation: sparkle 2s infinite alternate;
+}
+
+@keyframes sparkle {
+  0% {
+    filter: drop-shadow(0 0 3px gold);
+  }
+  100% {
+    filter: drop-shadow(0 0 8px gold);
+  }
+}
+
 /* Медиа запрос для мобильных устройств */
 @media screen and (max-width: 768px) {
   .picture {
     border-width: 1px;
+  }
+
+  .championPicture {
+    border-width: 3px;
+  }
+
+  .crown {
+    width: 30px;
+    height: 30px;
+    top: -10px;
+    left: -5px;
   }
 }
 
@@ -23,5 +69,12 @@
 @media screen and (max-width: 480px) {
   .picture {
     border-radius: 6px;
+  }
+
+  .crown {
+    width: 24px;
+    height: 24px;
+    top: -8px;
+    left: -3px;
   }
 }
