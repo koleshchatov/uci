@@ -37,7 +37,7 @@ export default function HomePage() {
   const getKeyByName = (name) => {
     const nameToKey = {
       Саня: "alexandr",
-      Алеша: "aleksey",
+      Леха: "aleksey",
       Малой: "dmitrii",
       Ярик: "yarik",
     };
