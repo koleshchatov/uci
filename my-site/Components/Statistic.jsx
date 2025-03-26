@@ -28,12 +28,13 @@ export default function Statistic() {
   const [pidorPerPage, setPidorPerPage] = useState(10);
   const [activeDiagramma, setActiveDiagramma] = useState("Line");
   const [totalPidor, setTotalPidor] = useState();
-
+  
   useEffect(() => {
     async function getPidorPage() {
       const pidor = await fetchData({
         path: "/pidor",
         urlParamsObject: { page: page, per_page: pidorPerPage, sort: "desc" },
+        options: {}
       });
 
       setNewPidorPagination(pidor.data.items);
@@ -47,15 +48,18 @@ export default function Statistic() {
     async function getPidorStats() {
       const users = await fetchData({
         path: "/users",
+        options: {}
       });
       const diagrammaStats = await fetchData({
         path: "/pidor_stats",
         urlParamsObject: { sort: "asc" },
+        options: {}
       });
 
       const totalPidorPie = await fetchData({
         path: "/pidor_stats",
         urlParamsObject: { full: "true" },
+        options: {}
       });
 
       const dataUsersColors = users.data.items;

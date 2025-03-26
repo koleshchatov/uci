@@ -15,7 +15,7 @@ export const fetchData = async ({
     // Здесь вринципе уже получается формируем url запроса
     const requestUrl = `${url}${path}${query}`;
     // Здесь отправляем запрос
-    const response = await fetch(requestUrl);
+    const response = await fetch(requestUrl, options);
     //Здесь преобразуем полученные данные
     const responseData = await response?.json();
     //ну тут выводится нет ли ошибок, и возвращаем данные
