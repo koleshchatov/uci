@@ -25,13 +25,6 @@ export default function HomePage() {
     searchLastPidorDay();
   }, []);
 
-  function isTodaysPidorFromToday() {
-    if (!lastPidorDay || !lastPidorDay.date) return false;
-    const today = new Date().toISOString().split("T")[0];
-    const pidorDate = lastPidorDay.date.split("T")[0];
-    return today === pidorDate;
-  }
-
   return (
     <>
       <Title />
