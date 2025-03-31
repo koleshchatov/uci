@@ -4,32 +4,10 @@ import Modal from "./Modal";
 import { ImageContainer } from "../Components/Pictures/ImageContainer.jsx";
 import styles from "./Pictures/Picture.module.css";
 import { fetchData } from "./utils";
+import isTodaysPidorFromToday from "../src/Pages/HomePage.jsx";
 
-export default function PidorModal() {
+export default function PidorModal({ lastPidorDay, setLastPidorDay }) {
   const [ModalOpen, setModalOpen] = useState(false);
-  const [lastPidorDay, setLastPidorDay] = useState({});
-
-  useEffect(() => {
-    async function searchLastPidorDay() {
-      const pidorDaySearch = await fetchData({
-        path: "/pidor_stats",
-        urlParamsObject: { full: "true" },
-        options: {},
-      });
-
-      const lastPidor = pidorDaySearch.data.last_pidor;
-      setLastPidorDay(lastPidor);
-    }
-
-    searchLastPidorDay();
-  }, []);
-
-  function isTodaysPidorFromToday() {
-    if (!lastPidorDay || !lastPidorDay.date) return false;
-    const today = new Date().toISOString().split("T")[0];
-    const pidorDate = lastPidorDay.date.split("T")[0];
-    return today === pidorDate;
-  }
 
   async function getPidorDay() {
     const pidorDaySearch = await fetchData({

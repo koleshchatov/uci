@@ -2,7 +2,7 @@
   width: 400px;
   height: 600px;
   object-fit: cover;
-  padding: 2px;
+  padding: 10px;
   margin: 20px;
   background: aquamarine;
 }
@@ -19,7 +19,7 @@
   width: 400px;
   height: 600px;
   object-fit: cover;
-  padding: 2px;
+  padding: 30px;
   margin: 20px;
   background: gold;
 }
