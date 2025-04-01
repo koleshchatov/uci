@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import Button from "./Button.module";
+import Button from "../Buttons/Button.module.jsx";
 import Modal from "./Modal";
-import { ImageContainer } from "../Components/Pictures/ImageContainer.jsx";
-import styles from "./Pictures/Picture.module.css";
-import { fetchData } from "./utils";
-import isTodaysPidorFromToday from "../src/Pages/HomePage.jsx";
+import { ImageContainer } from "../Pictures/ImageContainer.jsx";
+import styles from "../Pictures/Picture.module.css";
+import { fetchData } from "../Utils/utils.js";
 
 export default function PidorModal({ lastPidorDay, setLastPidorDay }) {
   const [ModalOpen, setModalOpen] = useState(false);

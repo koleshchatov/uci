@@ -1,10 +1,10 @@
-import Picture from "/Components/Pictures/Picture.jsx";
-import { ImageContainer } from "/Components/Pictures/ImageContainer.jsx";
+import Picture from "../../Components/Pictures/Picture.jsx";
+import { ImageContainer } from "../../Components/Pictures/ImageContainer.jsx";
 import React from "react";
-import PidorModal from "/Components/PidorModal.jsx";
-import Title from "/Components/Title.jsx";
-import styles from "/Components/Pictures/Picture.module.css";
-import { fetchData } from "/Components/utils";
+import PidorModal from "../../Components/ModalPidor/PidorModal.jsx";
+import Title from "./Title.jsx";
+import styles from "../../Components/Pictures/Picture.module.css";
+import { fetchData } from "../../Components/Utils/utils";
 import { useEffect, useState } from "react";
 
 export default function HomePage() {

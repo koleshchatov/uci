@@ -16,8 +16,8 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { fetchData } from "./utils";
-import { colors } from "./Colors";
+import { fetchData } from "../Utils/utils";
+import { colors } from "../Colors/Colors";
 
 export default function Statistic() {
   const [newPidorStats, setNewPidorStats] = useState([]);
@@ -28,13 +28,13 @@ export default function Statistic() {
   const [pidorPerPage, setPidorPerPage] = useState(10);
   const [activeDiagramma, setActiveDiagramma] = useState("Line");
   const [totalPidor, setTotalPidor] = useState();
-  
+
   useEffect(() => {
     async function getPidorPage() {
       const pidor = await fetchData({
         path: "/pidor",
         urlParamsObject: { page: page, per_page: pidorPerPage, sort: "desc" },
-        options: {}
+        options: {},
       });
 
       setNewPidorPagination(pidor.data.items);
@@ -48,51 +48,40 @@ export default function Statistic() {
     async function getPidorStats() {
       const users = await fetchData({
         path: "/users",
-        options: {}
+        options: {},
       });
       const diagrammaStats = await fetchData({
         path: "/pidor_stats",
         urlParamsObject: { sort: "asc" },
-        options: {}
+        options: {},
       });
 
       const totalPidorPie = await fetchData({
         path: "/pidor_stats",
         urlParamsObject: { full: "true" },
-        options: {}
+        options: {},
       });
 
       const dataUsersColors = users.data.items;
-      const dataUsersPie = totalPidorPie.data.stats
+      const dataUsersPie = totalPidorPie.data.stats;
 
       const usersColor = (value) => {
         const userColor = {};
         for (let i = 0; i < value.length; i++) {
           userColor[value[i].name] = colors[i];
-          
         }
         return userColor;
       };
 
-
-
-    
-
       const newUserColor = usersColor(dataUsersColors);
-  
-      
+
       setPidorWithColor(newUserColor);
       setNewPidorStats(diagrammaStats.data.daily_stats);
-      setPidorPie(dataUsersPie)
-
-
-            
+      setPidorPie(dataUsersPie);
     }
 
     getPidorStats();
   }, []);
-
-
 
   function handleClick(number) {
     setPage(number);
@@ -160,31 +149,27 @@ export default function Statistic() {
     );
   };
 
- 
-
   const DiagrammaPie = ({ data, pidorColors }) => {
     return (
       <ResponsiveContainer width="100%" aspect={2}>
-          <PieChart width={400} height={400}>
-            <Tooltip/>
-            <Legend/>
+        <PieChart width={400} height={400}>
+          <Tooltip />
+          <Legend />
           <Pie
             data={data}
             cx="50%"
             cy="50%"
             labelLine={false}
-            label={({name, percent}) => `${name} ${(percent*100).toFixed(0)}%`}
+            label={({ name, percent }) =>
+              `${name} ${(percent * 100).toFixed(0)}%`
+            }
             outerRadius={250}
             fill="#8884d8"
             dataKey="count"
-            
-            
-            
           >
             {Object.entries(data).map(([key, value]) => (
-              <Cell key={key} fill={pidorColors[value.name]}  />
+              <Cell key={key} fill={pidorColors[value.name]} />
             ))}
-           
           </Pie>
         </PieChart>
       </ResponsiveContainer>
@@ -446,7 +431,9 @@ export default function Statistic() {
         <DiagrammaLine data={newPidorStats} pidorColors={pidorWithColor} />
       ) : activeDiagramma === "Bar" ? (
         <DiagrammaBar data={newPidorStats} pidorColors={pidorWithColor} />
-      ) : (<DiagrammaPie data={pidorPie} pidorColors={pidorWithColor}/>)}
+      ) : (
+        <DiagrammaPie data={pidorPie} pidorColors={pidorWithColor} />
+      )}
 
       <RadioDiagramma />
       <div className={styles.container}>
