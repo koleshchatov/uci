@@ -1,4 +1,5 @@
 import qs from "qs";
+import { API_URL } from "../../../config";
 
 export const fetchData = async ({
   path,
@@ -7,7 +8,7 @@ export const fetchData = async ({
 }) => {
   try {
     //это мы указываем путь к апи
-    const url = "https://api-pidors.tucha-happy-birthsday.ru/api/v1";
+    const url = API_URL;
     //тут мы преобразовываем обьекты в строку запроса, ну типа написали page, он его подставил в виде строки
     const queryString = qs.stringify(urlParamsObject);
     //проверяем есть ли кверистринг, если есть вставляем в url запроса

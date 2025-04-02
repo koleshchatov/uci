@@ -17,7 +17,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { fetchData } from "../Utils/utils";
-import { colors } from "../Colors/Colors";
+import { colors } from "../Colors/Colors.js";
 
 export default function Statistic() {
   const [newPidorStats, setNewPidorStats] = useState([]);
