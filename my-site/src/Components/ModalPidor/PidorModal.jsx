@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Button from "../Buttons/Button.module.jsx";
+import Button from "../Buttons/Button.jsx";
 import Modal from "./Modal";
 import { ImageContainer } from "../Pictures/ImageContainer.jsx";
 import styles from "../Pictures/Picture.module.css";
@@ -53,7 +53,11 @@ export default function PidorModal({ lastPidorDay, setLastPidorDay }) {
 
   return (
     <section>
-      <Button onClick={openModal} disabled={isTodaysPidorFromToday()}>
+      <Button
+        className={styles.button}
+        onClick={openModal}
+        disabled={isTodaysPidorFromToday()}
+      >
         Узнать чемпиона!
       </Button>
       <Modal open={ModalOpen}>{ModalContent}</Modal>

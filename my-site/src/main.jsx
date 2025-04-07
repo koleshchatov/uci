@@ -4,12 +4,13 @@ import "./index.css";
 import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import Menu from "/src/Pages/HomePage/Menu.jsx";
+import { LastPidorProvider } from "../useContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
-    <Menu />
-    <StrictMode>
+    <LastPidorProvider>
+      <Menu />
       <App />
-    </StrictMode>
+    </LastPidorProvider>
   </BrowserRouter>
 );

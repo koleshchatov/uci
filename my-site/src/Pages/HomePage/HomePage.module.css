@@ -1,0 +1,34 @@
+.homePage {
+  display: flex;
+  max-width: 2000;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  align-items: center;
+}
+
+.picture {
+  width: 400px;
+  height: 600px;
+  object-fit: cover;
+  padding: 10px;
+  margin: 20px;
+  background: aquamarine;
+}
+
+.block {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 20px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+.picturePidor {
+  width: 400px;
+  height: 600px;
+  object-fit: cover;
+  padding: 30px;
+  margin: 20px;
+  background: gold;
+}
