@@ -3,11 +3,9 @@ import styles from "../../Components/ModalPidor/Modal.module.css";
 import { ImageContainer } from "../../Components/Pictures/ImageContainer.jsx";
 import { usePidorContext } from "../../../useContext.jsx";
 
-const { lastPidor } = usePidorContext;
-
-console.log(lastPidor);
-
 export default function Menu() {
+  const { lastPidorDayContext } = usePidorContext();
+
   return (
     <>
       <div className={styles.header}>
@@ -15,8 +13,9 @@ export default function Menu() {
           <Link to={"/"}>
             <img
               src={
-                lastPidor === new Date().toISOString().split("T")[0]
-                  ? ImageContainer[lastPidor.name]
+                lastPidorDayContext.date.split("T")[0] ===
+                new Date().toISOString().split("T")[0]
+                  ? ImageContainer[lastPidorDayContext.name]
                   : "public/лого.jpg"
               }
               alt="logo"

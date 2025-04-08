@@ -4,7 +4,7 @@ import { fetchData } from "./src/Components/Utils/utils";
 const LastPidorContext = createContext();
 
 export const LastPidorProvider = ({ children }) => {
-  const [lastPidor, setLastPidor] = useState({});
+  const [lastPidorDayContext, setLastPidorDayContext] = useState({});
 
   useEffect(() => {
     async function searchPidorDay() {
@@ -16,15 +16,15 @@ export const LastPidorProvider = ({ children }) => {
 
       const lastDayPidor = pidorLastDay.data.last_pidor;
 
-      setLastPidor(lastDayPidor);
+      setLastPidorDayContext(lastDayPidor);
     }
 
     searchPidorDay();
   }, []);
 
   const contextValue = {
-    lastPidor,
-    setLastPidor,
+    lastPidorDayContext,
+    setLastPidorDayContext,
   };
 
   return (
