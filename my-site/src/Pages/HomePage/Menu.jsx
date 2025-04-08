@@ -6,6 +6,12 @@ import { usePidorContext } from "../../../useContext.jsx";
 export default function Menu() {
   const { lastPidorDayContext } = usePidorContext();
 
+  function isTodaysPidorFromToday() {
+    if (!lastPidorDayContext || !lastPidorDayContext.date) return false;
+    const today = new Date().toISOString().split("T")[0];
+    const pidorDate = lastPidorDayContext.date.split("T")[0];
+    return today === pidorDate;
+  }
   return (
     <>
       <div className={styles.header}>
@@ -13,8 +19,7 @@ export default function Menu() {
           <Link to={"/"}>
             <img
               src={
-                lastPidorDayContext.date.split("T")[0] ===
-                new Date().toISOString().split("T")[0]
+                isTodaysPidorFromToday()
                   ? ImageContainer[lastPidorDayContext.name]
                   : "public/лого.jpg"
               }

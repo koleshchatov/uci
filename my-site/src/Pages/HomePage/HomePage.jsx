@@ -3,28 +3,11 @@ import { ImageContainer } from "../../Components/Pictures/ImageContainer.jsx";
 import React from "react";
 import PidorModal from "../../Components/ModalPidor/PidorModal.jsx";
 import Title from "./Title.jsx";
-
 import styles from "./HomePage.module.css";
-import { fetchData } from "../../Components/Utils/utils";
-import { useEffect, useState } from "react";
+import { usePidorContext } from "../../../useContext.jsx";
 
 export default function HomePage() {
-  const [lastPidorDay, setLastPidorDay] = useState({});
-
-  useEffect(() => {
-    async function searchLastPidorDay() {
-      const pidorDaySearch = await fetchData({
-        path: "/pidor_stats",
-        urlParamsObject: { full: "true" },
-        options: {},
-      });
-
-      const lastPidor = pidorDaySearch.data.last_pidor;
-      setLastPidorDay(lastPidor);
-    }
-
-    searchLastPidorDay();
-  }, []);
+  const { lastPidorDayContext, setLastPidorDayContext } = usePidorContext();
 
   return (
     <>
@@ -36,15 +19,17 @@ export default function HomePage() {
             image={value}
             key={key}
             className={
-              key === lastPidorDay.name ? styles.picturePidor : styles.picture
+              key === lastPidorDayContext.name
+                ? styles.picturePidor
+                : styles.picture
             }
           />
         ))}
       </div>
 
       <PidorModal
-        lastPidorDay={lastPidorDay}
-        setLastPidorDay={setLastPidorDay}
+        lastPidorDay={lastPidorDayContext}
+        setLastPidorDay={setLastPidorDayContext}
       />
     </>
   );
