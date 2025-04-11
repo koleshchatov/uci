@@ -5,6 +5,7 @@ import PidorModal from "../../Components/ModalPidor/PidorModal.jsx";
 import Title from "./Title.jsx";
 import styles from "./HomePage.module.css";
 import { usePidorContext } from "../../../useContext.jsx";
+import Loader from "../../Components/Loader/loader.jsx";
 
 export default function HomePage() {
   const { lastPidorDayContext, setLastPidorDayContext } = usePidorContext();
