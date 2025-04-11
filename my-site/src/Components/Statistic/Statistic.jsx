@@ -16,8 +16,14 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { fetchData } from "../Utils/utils";
+
 import { colors } from "../Colors/Colors.js";
+import {
+  getUsers,
+  getPidorStatsDiagramma,
+  getTotalPidorStats,
+  pidorsData,
+} from "../pidors.service.js";
 
 export default function Statistic() {
   const [newPidorStats, setNewPidorStats] = useState([]);
@@ -31,14 +37,9 @@ export default function Statistic() {
 
   useEffect(() => {
     async function getPidorPage() {
-      const pidor = await fetchData({
-        path: "/pidor",
-        urlParamsObject: { page: page, per_page: pidorPerPage, sort: "desc" },
-        options: {},
-      });
-
-      setNewPidorPagination(pidor.data.items);
-      setTotalPidor(pidor.data.pagination.total);
+      const pidor = await pidorsData(page, pidorPerPage, "desc");
+      setNewPidorPagination(pidor.items);
+      setTotalPidor(pidor.pagination.total);
     }
 
     getPidorPage();
@@ -46,24 +47,12 @@ export default function Statistic() {
 
   useEffect(() => {
     async function getPidorStats() {
-      const users = await fetchData({
-        path: "/users",
-        options: {},
-      });
-      const diagrammaStats = await fetchData({
-        path: "/pidor_stats",
-        urlParamsObject: { sort: "asc" },
-        options: {},
-      });
+      const users = await getUsers();
+      const diagrammaStats = await getPidorStatsDiagramma("asc");
+      const totalPidorPie = await getTotalPidorStats("true");
 
-      const totalPidorPie = await fetchData({
-        path: "/pidor_stats",
-        urlParamsObject: { full: "true" },
-        options: {},
-      });
-
-      const dataUsersColors = users.data.items;
-      const dataUsersPie = totalPidorPie.data.stats;
+      const dataUsersColors = users.items;
+      const dataUsersPie = totalPidorPie.stats;
 
       const usersColor = (value) => {
         const userColor = {};
@@ -76,7 +65,7 @@ export default function Statistic() {
       const newUserColor = usersColor(dataUsersColors);
 
       setPidorWithColor(newUserColor);
-      setNewPidorStats(diagrammaStats.data.daily_stats);
+      setNewPidorStats(diagrammaStats.daily_stats);
       setPidorPie(dataUsersPie);
     }
 

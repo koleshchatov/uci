@@ -3,21 +3,16 @@ import Button from "../Buttons/Button.jsx";
 import Modal from "./Modal";
 import { ImageContainer } from "../Pictures/ImageContainer.jsx";
 import styles from "../Pictures/Picture.module.css";
-import { fetchData } from "../Utils/utils.js";
+
+import { setPidorDay } from "../pidors.service.js";
 
 export default function PidorModal({ lastPidorDay, setLastPidorDay }) {
   const [ModalOpen, setModalOpen] = useState(false);
 
-  async function getPidorDay() {
-    const pidorDaySearch = await fetchData({
-      path: "/day_pidor",
-      options: {
-        method: "POST",
-        headers: { "Content-type": "application/json" },
-      },
-    });
-    const day = pidorDaySearch.data.pidor;
-    setLastPidorDay(day);
+  async function handlePidorDay() {
+    const pidorDaySearch = await setPidorDay();
+    const pidor = pidorDaySearch.pidor;
+    setLastPidorDay(pidor);
   }
 
   function isTodaysPidorFromToday() {
@@ -30,7 +25,7 @@ export default function PidorModal({ lastPidorDay, setLastPidorDay }) {
   function openModal() {
     if (lastPidorDay.date !== new Date().toISOString().split("T")[0]) {
       setModalOpen(true);
-      getPidorDay();
+      handlePidorDay();
     }
   }
 

@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { fetchData } from "./src/Components/Utils/utils";
+import { getTotalPidorStats } from "./src/Components/pidors.service";
 
 const LastPidorContext = createContext();
 
@@ -8,13 +8,9 @@ export const LastPidorProvider = ({ children }) => {
 
   useEffect(() => {
     async function searchPidorDay() {
-      const pidorLastDay = await fetchData({
-        path: "/pidor_stats",
-        urlParamsObject: { full: "true" },
-        options: {},
-      });
+      const pidorLastDay = await getTotalPidorStats("true");
 
-      const lastDayPidor = pidorLastDay.data.last_pidor;
+      const lastDayPidor = pidorLastDay.last_pidor;
 
       setLastPidorDayContext(lastDayPidor);
     }
