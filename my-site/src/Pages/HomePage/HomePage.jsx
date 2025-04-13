@@ -8,14 +8,14 @@ import { usePidorContext } from "../../../useContext.jsx";
 import Loader from "../../Components/Loader/loader.jsx";
 
 export default function HomePage() {
-  const { lastPidorDayContext, setLastPidorDayContext } = usePidorContext();
-
+  const { isLoading, lastPidorDayContext, setLastPidorDayContext } = usePidorContext();
   return (
     <>
       <Title />
 
       <div className={styles.homePage}>
-        {Object.entries(ImageContainer).map(([key, value]) => (
+        
+        {isLoading? <Loader /> : Object.entries(ImageContainer).map(([key, value]) => (
           <Picture
             image={value}
             key={key}
