@@ -3,15 +3,18 @@ import Button from "../Buttons/Button.jsx";
 import Modal from "./Modal";
 import { ImageContainer } from "../Pictures/ImageContainer.jsx";
 import styles from "../Pictures/Picture.module.css";
-
 import { setPidorDay } from "../pidors.service.js";
+import Loader from "../Loader/loader.jsx";
 
 export default function PidorModal({ lastPidorDay, setLastPidorDay }) {
   const [ModalOpen, setModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   async function handlePidorDay() {
     const pidorDaySearch = await setPidorDay();
+    setIsLoading(true)
     const pidor = pidorDaySearch.pidor;
+    setIsLoading(false)
     setLastPidorDay(pidor);
   }
 
@@ -55,7 +58,7 @@ export default function PidorModal({ lastPidorDay, setLastPidorDay }) {
       >
         Узнать чемпиона!
       </Button>
-      <Modal open={ModalOpen}>{ModalContent}</Modal>
+      {isLoading? <Loader/> : <Modal open={ModalOpen}>{ModalContent}</Modal>}
     </section>
   );
 }
