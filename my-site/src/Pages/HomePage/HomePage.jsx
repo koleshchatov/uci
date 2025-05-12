@@ -6,22 +6,23 @@ import Title from "./Title.jsx";
 import styles from "./HomePage.module.css";
 import { usePidorContext } from "../../../useContext.jsx";
 
-export default function HomePage() {
-  const { lastPidorDayContext, setLastPidorDayContext } = usePidorContext();
 
+
+export default function HomePage() {
+  const { isLoading, lastPidorDayContext, setLastPidorDayContext } = usePidorContext();
   return (
     <>
       <Title />
 
       <div className={styles.homePage}>
-        {Object.entries(ImageContainer).map(([key, value]) => (
-          <Picture
-            image={value}
-            key={key}
-            className={
-              key === lastPidorDayContext.name
-                ? styles.picturePidor
-                : styles.picture
+      {isLoading? <Loader/> : Object.entries(ImageContainer).map(([key, value]) => (
+        <Picture
+          image={value}
+          key={key}
+          className={
+            key === lastPidorDayContext.name
+              ? styles.picturePidor
+              : styles.picture
             }
           />
         ))}

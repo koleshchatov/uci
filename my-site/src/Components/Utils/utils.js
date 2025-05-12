@@ -1,11 +1,13 @@
 import qs from "qs";
 import { API_URL } from "../../../config";
 
+
 export const fetchData = async ({
   path,
   urlParamsObject = {},
   options = {},
 }) => {
+  
   try {
     //это мы указываем путь к апи
     const url = API_URL;
@@ -24,6 +26,7 @@ export const fetchData = async ({
     //Тут возвращаем предыдущую строку
     return data;
   } catch (error) {
+    
     const timestamp = `[${new Date().toLocaleString()}]`;
     console.error(
       timestamp,
@@ -35,4 +38,5 @@ export const fetchData = async ({
       data: { error: "An error occurred while fetching data" },
     };
   }
+
 };
