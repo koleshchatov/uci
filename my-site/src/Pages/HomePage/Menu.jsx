@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import styles from "../../Components/ModalPidor/Modal.module.css";
 import { ImageContainer } from "../../Components/Pictures/ImageContainer.jsx";
 import { usePidorContext } from "../../../useContext.jsx";
+import { useState } from "react";
 
 export default function Menu() {
   const { lastPidorDayContext } = usePidorContext();
@@ -30,6 +31,9 @@ export default function Menu() {
         </div>
         <div className={styles.headerStats}>
           <Link to={"/stats"}>Посмотрим статистику</Link>
+        </div>
+        <div className={styles.headerStats}>
+          <Link to={"/login"}>Зарегистрироваться</Link>
         </div>
       </div>
     </>
