@@ -4,12 +4,15 @@ import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import Menu from "/src/Pages/HomePage/Menu.jsx";
 import { LastPidorProvider } from "../useContext.jsx";
+import { AuthProvider } from "../Auth/AuthContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
-    <LastPidorProvider>
-      <Menu />
-      <App />
-    </LastPidorProvider>
+    <AuthProvider>
+      <LastPidorProvider>
+        <Menu />
+        <App />
+      </LastPidorProvider>
+    </AuthProvider>
   </BrowserRouter>
 );
