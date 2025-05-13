@@ -1,5 +1,5 @@
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import HomePage from "./Pages/HomePage/HomePage";
 import StatsPage from "./Pages/StatsPage/StatsPage";
 import Login from "../Auth/AuthProvider";
@@ -18,8 +18,7 @@ export default function App() {
       ) : (
         <>
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Login />} />
-          <Route path="/stats" element={<Login />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </>
       )}
     </Routes>
