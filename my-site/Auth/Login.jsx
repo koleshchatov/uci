@@ -8,7 +8,7 @@ export default function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login();
+    login({ name: userName, password: userPassword });
   };
 
   const handleExit = (e) => {

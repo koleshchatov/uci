@@ -2,7 +2,7 @@ import "./App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
 import HomePage from "./Pages/HomePage/HomePage";
 import StatsPage from "./Pages/StatsPage/StatsPage";
-import Login from "../Auth/AuthProvider";
+import Login from "../Auth/Login";
 import { useAuthContext } from "../Auth/AuthContext";
 
 export default function App() {

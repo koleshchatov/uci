@@ -35,7 +35,7 @@ export default function Statistic() {
   const [pidorPerPage, setPidorPerPage] = useState(10);
   const [activeDiagramma, setActiveDiagramma] = useState("Line");
   const [totalPidor, setTotalPidor] = useState();
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function getPidorPage() {
@@ -49,11 +49,11 @@ export default function Statistic() {
 
   useEffect(() => {
     async function getPidorStats() {
-      setIsLoading(true)
+      setIsLoading(true);
       const users = await getUsers();
       const diagrammaStats = await getPidorStatsDiagramma("asc");
       const totalPidorPie = await getTotalPidorStats("true");
-      setIsLoading(false)
+      setIsLoading(false);
 
       const dataUsersColors = users.items;
       const dataUsersPie = totalPidorPie.stats;
@@ -420,8 +420,9 @@ export default function Statistic() {
 
   return (
     <>
-      {isLoading? <Loader /> :
-      activeDiagramma === "Line" ? (
+      {isLoading ? (
+        <Loader />
+      ) : activeDiagramma === "Line" ? (
         <DiagrammaLine data={newPidorStats} pidorColors={pidorWithColor} />
       ) : activeDiagramma === "Bar" ? (
         <DiagrammaBar data={newPidorStats} pidorColors={pidorWithColor} />
@@ -430,23 +431,26 @@ export default function Statistic() {
       )}
 
       <RadioDiagramma />
-      {isLoading? <Loader /> : <div className={styles.container}>
-        <div className={styles.id}>Id</div>
-        <div className={styles.time}>Time</div>
-        <div className={styles.name}>Name</div>
-        {newPidorPagination.map((pidor) => {
-          return (
-            <Fragment key={pidor.id}>
-              <div>{pidor.id}</div>
-              <div>{new Date(pidor.date).toLocaleString()}</div>
-              <div>{pidor.user.name}</div>
-            </Fragment>
-          );
-        })}
-      </div>}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className={styles.container}>
+          <div className={styles.id}>Id</div>
+          <div className={styles.time}>Time</div>
+          <div className={styles.name}>Name</div>
+          {newPidorPagination.map((pidor) => {
+            return (
+              <Fragment key={pidor.id}>
+                <div>{pidor.id}</div>
+                <div>{new Date(pidor.date).toLocaleString()}</div>
+                <div>{pidor.user.name}</div>
+              </Fragment>
+            );
+          })}
+        </div>
+      )}
 
       <Pagination pidorPerPage={pidorPerPage} totalPidor={totalPidor} />
-
     </>
   );
 }

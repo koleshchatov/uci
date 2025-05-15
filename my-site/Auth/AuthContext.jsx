@@ -1,12 +1,30 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
+import { getAuthentication, loginUser } from "../src/Components/pidors.service";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const login = () => setIsAuthenticated(true);
-  const logout = () => setIsAuthenticated(false);
+  useEffect(() => {
+    async function authentication() {
+      const auth = await getAuthentication();
+      setIsAuthenticated(auth.authorized);
+    }
+
+    authentication();
+  }, []);
+
+  async function login({ name, password }) {
+    const getLogin = await loginUser({ name, password });
+    {
+      getLogin.success ? setIsAuthenticated(true) : setIsAuthenticated(false);
+    }
+  }
+
+  function logout() {
+    setIsAuthenticated(false);
+  }
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, login, logout }}>

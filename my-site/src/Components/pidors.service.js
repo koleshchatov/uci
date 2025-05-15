@@ -41,3 +41,28 @@ export async function setPidorDay() {
   });
   return response.data;
 }
+
+export async function getAuthentication() {
+  const response = await fetchData({
+    path: "/auth/me",
+  });
+  return response.data;
+}
+
+export async function loginUser({ name, password }) {
+  const response = await fetchData({
+    path: "/auth/login",
+    options: {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        name: name,
+        password: password,
+      }),
+    },
+  });
+  console.log(response.data);
+  return response.data;
+}
