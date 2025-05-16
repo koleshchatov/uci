@@ -34,4 +34,26 @@ export default function App() {
       </Routes>
     </>
   );
+
+  // return isLoadingAuth ? (
+  //   <Loader />
+  // ) : isAuthenticated ? (
+  //   <>
+  //     <Routes>
+  //       <>
+  //         <Route path="/" element={<HomePage />} />
+  //         <Route path="/stats" element={<StatsPage />} />
+  //       </>
+  //     </Routes>
+  //   </>
+  // ) : (
+  //   <>
+  //     <Routes>
+  //       <>
+  //         <Route path="/login" element={<Login />} />
+  //         <Route path="*" element={<Navigate to="/login" replace />} />
+  //       </>
+  //     </Routes>
+  //   </>
+  // );
 }
