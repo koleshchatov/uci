@@ -14,10 +14,13 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     async function authentication() {
       setIsLoadingAuth(true);
-      const auth = await getAuthentication();
-
-      setIsAuthenticated(auth.authorized);
-      setIsLoadingAuth(false);
+      try {
+        const auth = await getAuthentication();
+        setIsAuthenticated(auth.authorized);
+      } catch (error) {
+      } finally {
+        setIsLoadingAuth(false);
+      }
     }
 
     authentication();
