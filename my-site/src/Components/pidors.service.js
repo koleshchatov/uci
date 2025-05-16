@@ -66,3 +66,14 @@ export async function loginUser({ name, password }) {
   console.log(response.data);
   return response.data;
 }
+
+export async function logoutUser() {
+  const response = await fetchData({
+    path: "/auth/logout",
+    options: {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+    },
+  });
+  return response.data;
+}

@@ -1,33 +1,52 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { getAuthentication, loginUser } from "../src/Components/pidors.service";
+import {
+  getAuthentication,
+  loginUser,
+  logoutUser,
+} from "../src/Components/pidors.service";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoadingAuth, setIsLoadingAuth] = useState(false);
 
   useEffect(() => {
     async function authentication() {
+      setIsLoadingAuth(true);
       const auth = await getAuthentication();
+
       setIsAuthenticated(auth.authorized);
+      setIsLoadingAuth(false);
     }
 
     authentication();
   }, []);
 
   async function login({ name, password }) {
+    setIsLoadingAuth(true);
     const getLogin = await loginUser({ name, password });
+
     {
       getLogin.success ? setIsAuthenticated(true) : setIsAuthenticated(false);
     }
+    setIsLoadingAuth(false);
   }
 
-  function logout() {
-    setIsAuthenticated(false);
+  async function logout() {
+    setIsLoadingAuth(true);
+    const getLogout = await logoutUser();
+
+    {
+      getLogout.success ? setIsAuthenticated(false) : setIsAuthenticated(true);
+    }
+    setIsLoadingAuth(false);
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider
+      value={{ isLoadingAuth, isAuthenticated, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

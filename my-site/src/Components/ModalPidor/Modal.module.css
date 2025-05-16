@@ -68,3 +68,12 @@
   font-size: 40px;
   text-align: center;
 }
+
+.headerLogin {
+  display: "flex";
+  position: relative;
+  padding-left: 1600px;
+  text-align: center;
+  font-size: 40px;
+  float: right;
+}

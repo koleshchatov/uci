@@ -1,26 +1,37 @@
 import "./App.css";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, replace, Route, Routes } from "react-router-dom";
 import HomePage from "./Pages/HomePage/HomePage";
 import StatsPage from "./Pages/StatsPage/StatsPage";
 import Login from "../Auth/Login";
 import { useAuthContext } from "../Auth/AuthContext";
+import Loader from "./Components/Loader/loader";
 
 export default function App() {
-  const { isAuthenticated } = useAuthContext();
+  const { isAuthenticated, isLoadingAuth } = useAuthContext();
+
+  if (isLoadingAuth === true) {
+    <Loader />;
+  }
+  if (isAuthenticated === true)
+    return (
+      <>
+        <Routes>
+          <>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/stats" element={<StatsPage />} />
+          </>
+        </Routes>
+      </>
+    );
+  else isAuthenticated === false;
   return (
-    <Routes>
-      {isAuthenticated ? (
-        <>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/stats" element={<StatsPage />} />
-          <Route path="/login" element={<Login />} />
-        </>
-      ) : (
+    <>
+      <Routes>
         <>
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </>
-      )}
-    </Routes>
+      </Routes>
+    </>
   );
 }
