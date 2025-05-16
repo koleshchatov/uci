@@ -27,7 +27,7 @@ export default function Login() {
             height: 1000,
           }}
         >
-          Name:{" "}
+          Name:{""}
           <input
             style={{ width: 500, height: 30 }}
             type="text"
@@ -38,7 +38,7 @@ export default function Login() {
             onChange={(e) => setUserName(e.target.value)}
           />
           <br></br>
-          Password:{" "}
+          Password:{""}
           <input
             style={{
               width: 500,

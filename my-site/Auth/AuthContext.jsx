@@ -8,7 +8,7 @@ import {
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [isLoadingAuth, setIsLoadingAuth] = useState(false);
 
   useEffect(() => {

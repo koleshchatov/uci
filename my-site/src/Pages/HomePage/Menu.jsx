@@ -23,9 +23,7 @@ export default function Menu() {
 
   return (
     <>
-      {isLoadingAuth ? (
-        <Loader />
-      ) : (
+      {isAuthenticated ? (
         <div className={styles.header}>
           <div className={styles.headerLogo}>
             {isLoading ? (
@@ -46,16 +44,14 @@ export default function Menu() {
           </div>
           <div className={styles.headerStats}>
             <Link to={"/stats"}>Посмотрим статистику</Link>
-          </div>{" "}
-          {isAuthenticated ? (
-            <div className={styles.headerLogin}>
-              <Link onClick={handleExit}>Выйти</Link>
-            </div>
-          ) : (
-            <div className={styles.headerLogin}>
-              <Link to={"/login"}>Войти</Link>
-            </div>
-          )}
+          </div>
+          <div className={styles.headerLogin}>
+            <Link onClick={handleExit}>Выйти</Link>
+          </div>
+        </div>
+      ) : (
+        <div>
+          <div></div>
         </div>
       )}
     </>

@@ -8,27 +8,56 @@ import Loader from "./Components/Loader/loader";
 
 export default function App() {
   const { isAuthenticated, isLoadingAuth } = useAuthContext();
-  console.log(isAuthenticated);
 
-  return isLoadingAuth ? (
-    <Loader />
-  ) : isAuthenticated ? (
-    <>
-      <Routes>
+  if (isLoadingAuth) {
+    return <Loader />;
+  }
+  return (
+    <Routes>
+      <>
+        <Route
+          path="/login"
+          element={isAuthenticated ? <Navigate to="/" replace /> : <Login />}
+        />
+      </>
+      {isAuthenticated && (
         <>
           <Route path="/" element={<HomePage />} />
           <Route path="/stats" element={<StatsPage />} />
         </>
-      </Routes>
-    </>
-  ) : (
-    <>
-      <Routes>
-        <>
-          <Route path="/login" element={<Login />} />
-          <Route path="*" element={<Navigate to="/login" replace />} />
-        </>
-      </Routes>
-    </>
+      )}
+      <Route
+        path="*"
+        element={
+          isAuthenticated ? (
+            <Navigate to="/" replace />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+    </Routes>
   );
+
+  // return isLoadingAuth ? (
+  //   <Loader />
+  // ) : isAuthenticated ? (
+  //   <>
+  //     <Routes>
+  //       <>
+  //         <Route path="/" element={<HomePage />} />
+  //         <Route path="/stats" element={<StatsPage />} />
+  //       </>
+  //     </Routes>
+  //   </>
+  // ) : (
+  //   <>
+  //     <Routes>
+  //       <>
+  //         <Route path="/login" element={<Login />} />
+  //         <Route path="*" element={<Navigate to="/login" replace />} />
+  //       </>
+  //     </Routes>
+  //   </>
+  // );
 }
