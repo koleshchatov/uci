@@ -9,9 +9,6 @@ import Loader from "./Components/Loader/loader";
 export default function App() {
   const { isAuthenticated, isLoadingAuth } = useAuthContext();
 
-  if (isLoadingAuth) {
-    return <Loader />;
-  }
   return (
     <Routes>
       <>

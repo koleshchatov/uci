@@ -5,16 +5,18 @@ import { ImageContainer } from "../Pictures/ImageContainer.jsx";
 import styles from "../Pictures/Picture.module.css";
 import { setPidorDay } from "../pidors.service.js";
 import Loader from "../Loader/loader.jsx";
+import { useAuthContext } from "../../../Auth/AuthContext.jsx";
 
 export default function PidorModal({ lastPidorDay, setLastPidorDay }) {
   const [ModalOpen, setModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const { isLoadingAuth } = useAuthContext();
 
   async function handlePidorDay() {
     const pidorDaySearch = await setPidorDay();
-    setIsLoading(true)
+    setIsLoading(true);
     const pidor = pidorDaySearch.pidor;
-    setIsLoading(false)
+    setIsLoading(false);
     setLastPidorDay(pidor);
   }
 
@@ -50,15 +52,25 @@ export default function PidorModal({ lastPidorDay, setLastPidorDay }) {
   );
 
   return (
-    <section>
-      <Button
-        className={styles.button}
-        onClick={openModal}
-        disabled={isTodaysPidorFromToday()}
-      >
-        Узнать чемпиона!
-      </Button>
-      {isLoading? <Loader/> : <Modal open={ModalOpen}>{ModalContent}</Modal>}
-    </section>
+    <>
+      {isLoadingAuth ? (
+        <Loader />
+      ) : (
+        <section>
+          <Button
+            className={styles.button}
+            onClick={openModal}
+            disabled={isTodaysPidorFromToday()}
+          >
+            Узнать чемпиона!
+          </Button>
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <Modal open={ModalOpen}>{ModalContent}</Modal>
+          )}
+        </section>
+      )}
+    </>
   );
 }
