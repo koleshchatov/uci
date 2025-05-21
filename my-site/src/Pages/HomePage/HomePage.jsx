@@ -17,7 +17,7 @@ export default function HomePage() {
       <div className={styles.homePage}>
         {isLoading ? (
           <Loader />
-        ) : (
+        ) : lastPidorDayContext ? (
           Object.entries(ImageContainer).map(([key, value]) => (
             <Picture
               image={value}
@@ -28,6 +28,10 @@ export default function HomePage() {
                   : styles.picture
               }
             />
+          ))
+        ) : (
+          Object.entries(ImageContainer).map(([key, value]) => (
+            <Picture image={value} key={key} className={styles.picture} />
           ))
         )}
       </div>
