@@ -23,37 +23,31 @@ export default function Menu() {
 
   return (
     <>
-      {isAuthenticated ? (
-        <div className={styles.header}>
-          <div className={styles.headerLogo}>
-            {isLoading ? (
-              <Loader />
-            ) : (
-              <Link to={"/"}>
-                <img
-                  src={
-                    isTodaysPidorFromToday()
-                      ? ImageContainer[lastPidorDayContext.name]
-                      : "public/лого.jpg"
-                  }
-                  alt="logo"
-                  className={styles.imageLogo}
-                />
-              </Link>
-            )}
-          </div>
-          <div className={styles.headerStats}>
-            <Link to={"/stats"}>Посмотрим статистику</Link>
-          </div>
-          <div className={styles.headerLogin}>
-            <Link onClick={handleExit}>Выйти</Link>
-          </div>
+      <div className={styles.header}>
+        <div className={styles.headerLogo}>
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <Link to={"/"}>
+              <img
+                src={
+                  isTodaysPidorFromToday()
+                    ? ImageContainer[lastPidorDayContext.name]
+                    : "public/лого.jpg"
+                }
+                alt="logo"
+                className={styles.imageLogo}
+              />
+            </Link>
+          )}
         </div>
-      ) : (
-        <div>
-          <div></div>
+        <div className={styles.headerStats}>
+          <Link to={"/stats"}>Посмотрим статистику</Link>
         </div>
-      )}
+        <div className={styles.headerLogin}>
+          <Link onClick={handleExit}>Выйти</Link>
+        </div>
+      </div>
     </>
   );
 }
