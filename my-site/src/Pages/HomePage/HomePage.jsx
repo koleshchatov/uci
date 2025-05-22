@@ -8,8 +8,7 @@ import { usePidorContext } from "../../../useContext.jsx";
 import Loader from "../../Components/Loader/loader.jsx";
 
 export default function HomePage() {
-  const { isLoading, lastPidorDayContext, setLastPidorDayContext } =
-    usePidorContext();
+  const { isLoading, lastPidorDay, setLastPidorDay } = usePidorContext();
   return (
     <>
       <Title />
@@ -17,28 +16,24 @@ export default function HomePage() {
       <div className={styles.homePage}>
         {isLoading ? (
           <Loader />
-        ) : lastPidorDayContext ? (
+        ) : (
           Object.entries(ImageContainer).map(([key, value]) => (
             <Picture
               image={value}
               key={key}
               className={
-                key === lastPidorDayContext.name
+                lastPidorDay && key === lastPidorDay.name
                   ? styles.picturePidor
                   : styles.picture
               }
             />
           ))
-        ) : (
-          Object.entries(ImageContainer).map(([key, value]) => (
-            <Picture image={value} key={key} className={styles.picture} />
-          ))
         )}
       </div>
 
       <PidorModal
-        lastPidorDay={lastPidorDayContext}
-        setLastPidorDay={setLastPidorDayContext}
+        lastPidorDay={lastPidorDay}
+        setLastPidorDay={setLastPidorDay}
       />
     </>
   );

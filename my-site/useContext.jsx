@@ -4,17 +4,17 @@ import { getTotalPidorStats } from "./src/Components/pidors.service";
 const LastPidorContext = createContext();
 
 export const LastPidorProvider = ({ children }) => {
-  const [lastPidorDayContext, setLastPidorDayContext] = useState({});
-  const [isLoading, setIsLoading] = useState(false)
+  const [lastPidorDay, setLastPidorDay] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function searchPidorDay() {
-      setIsLoading(true)
+      setIsLoading(true);
       const pidorLastDay = await getTotalPidorStats("true");
 
       const lastDayPidor = pidorLastDay.last_pidor;
-      setIsLoading(false)
-      setLastPidorDayContext(lastDayPidor);
+      setIsLoading(false);
+      setLastPidorDay(lastDayPidor);
     }
 
     searchPidorDay();
@@ -22,8 +22,8 @@ export const LastPidorProvider = ({ children }) => {
 
   const contextValue = {
     isLoading,
-    lastPidorDayContext,
-    setLastPidorDayContext,
+    lastPidorDay,
+    setLastPidorDay,
   };
 
   return (
