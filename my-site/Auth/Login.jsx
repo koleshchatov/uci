@@ -3,8 +3,8 @@ import { useAuthContext } from "./AuthContext";
 import Loader from "../src/Components/Loader/loader";
 
 export default function Login() {
-  const [userName, setUserName] = useState(" ");
-  const [userPassword, setUserPassword] = useState(" ");
+  const [userName, setUserName] = useState("");
+  const [userPassword, setUserPassword] = useState("");
   const { isLoadingAuth, login, isError } = useAuthContext();
 
   const handleSubmit = (e) => {
