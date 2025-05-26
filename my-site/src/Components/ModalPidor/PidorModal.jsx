@@ -44,7 +44,7 @@ export default function PidorModal({ lastPidorDay, setLastPidorDay }) {
       <img
         className={styles.picture}
         style={{ width: 300, height: 400, backgrond: "gold" }}
-        src={ImageContainer[lastPidorDay.name]}
+        src={lastPidorDay && ImageContainer[lastPidorDay.name]}
       />
       <br />
       <button onClick={closeModal}>Закрыть</button>
