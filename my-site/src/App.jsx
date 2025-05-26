@@ -8,7 +8,8 @@ import Loader from "./Components/Loader/loader";
 import Layout from "./layout";
 
 export default function App() {
-  const { isAuthenticated, isLoadingAuth } = useAuthContext();
+  const { isAuthenticated, isLoadingAuth, isAuthError, logout } =
+    useAuthContext();
 
   if (isLoadingAuth) return <Loader />;
   if (!isAuthenticated)

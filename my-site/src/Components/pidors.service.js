@@ -46,7 +46,8 @@ export async function getAuthentication() {
   const response = await fetchData({
     path: "/auth/me",
   });
-  return response.data;
+  console.log(response);
+  return response;
 }
 
 export async function loginUser({ name, password }) {

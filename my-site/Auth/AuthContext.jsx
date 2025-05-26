@@ -10,6 +10,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [isLoadingAuth, setIsLoadingAuth] = useState(false);
+
   const [isError, setIsError] = useState();
 
   useEffect(() => {
@@ -17,6 +18,9 @@ export const AuthProvider = ({ children }) => {
       setIsLoadingAuth(true);
       try {
         const auth = await getAuthentication();
+        if (auth.status === 401) {
+          await logout();
+        }
         setIsAuthenticated(auth.authorized);
       } catch (error) {
       } finally {
@@ -50,7 +54,13 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isLoadingAuth, isAuthenticated, login, logout, isError }}
+      value={{
+        isLoadingAuth,
+        isAuthenticated,
+        login,
+        logout,
+        isError,
+      }}
     >
       {children}
     </AuthContext.Provider>
