@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
         if (auth.status === 401) {
           await logout();
         }
-        setIsAuthenticated(auth.authorized);
+        setIsAuthenticated(auth.data.authorized);
       } catch (error) {
       } finally {
         setIsLoadingAuth(false);
