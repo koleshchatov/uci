@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import App from "./Components/Routes/App.jsx";
+import App from "./Components/Routes/";
 import { BrowserRouter } from "react-router-dom";
 import { LastPidorProvider } from "./Components/contexts/LastPidorContext/lastPidorContext.jsx";
 import { AuthProvider } from "./Components/contexts/AuthContext/AuthContext.jsx";

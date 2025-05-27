@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getTotalPidorStats } from "../../Utils/pidors.service";
+import { getTotalPidorStats } from "../../Services/pidors.service";
 import { useAuthContext } from "../AuthContext/AuthContext";
 
 const LastPidorContext = createContext();

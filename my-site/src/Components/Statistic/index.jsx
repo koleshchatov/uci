@@ -17,14 +17,14 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import { colors } from "../Colors/Colors.js";
+import { colors } from "../../Colors/Colors.js";
 import {
   getUsers,
   getPidorStatsDiagramma,
   getTotalPidorStats,
   pidorsData,
-} from "../Utils/pidors.service.js";
-import Loader from "../../Components/Loader/loader.jsx";
+} from "../Services/pidors.service.js";
+import Loader from "../Loader/index.jsx";
 
 export default function Statistic() {
   const [newPidorStats, setNewPidorStats] = useState([]);

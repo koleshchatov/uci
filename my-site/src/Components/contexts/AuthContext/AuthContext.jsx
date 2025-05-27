@@ -3,7 +3,7 @@ import {
   getAuthentication,
   loginUser,
   logoutUser,
-} from "../../Utils/auth.service";
+} from "../../Services/auth.service";
 
 const AuthContext = createContext();
 

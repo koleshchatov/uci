@@ -1,10 +1,10 @@
 import { useState } from "react";
-import Button from "../Buttons/Button.jsx";
-import Modal from "./Modal";
-import { ImageContainer } from "../Pictures/ImageContainer.jsx";
+import Button from "../Buttons/index.jsx";
+import Modal from "./Modal.jsx";
+import { ImageContainer } from "../Pictures/ImageContainer.js";
 import styles from "../Pictures/Picture.module.css";
-import { setPidorDay } from "../Utils/pidors.service.js";
-import Loader from "../Loader/loader.jsx";
+import { setPidorDay } from "../Services/pidors.service.js";
+import Loader from "../Loader/index.jsx";
 import { useAuthContext } from "../contexts/AuthContext/AuthContext.jsx";
 
 export default function PidorModal({ lastPidorDay, setLastPidorDay }) {

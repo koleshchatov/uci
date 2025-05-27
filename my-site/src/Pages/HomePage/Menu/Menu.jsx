@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import styles from "../../Components/ModalPidor/Modal.module.css";
-import { ImageContainer } from "../../Components/Pictures/ImageContainer.jsx";
-import { usePidorContext } from "../../Components/contexts/LastPidorContext/lastPidorContext.jsx";
-import Loader from "../../Components/Loader/loader.jsx";
-import { useAuthContext } from "../../Components/contexts/AuthContext/AuthContext.jsx";
+import styles from "../../../Components/ModalPidor/Modal.module.css";
+import { ImageContainer } from "../../../Components/Pictures/ImageContainer.js";
+import { usePidorContext } from "../../../Components/contexts/LastPidorContext/lastPidorContext.jsx";
+import Loader from "../../../Components/Loader/";
+import { useAuthContext } from "../../../Components/contexts/AuthContext/AuthContext.jsx";
 
 export default function Menu() {
   const { isLoading, lastPidorDay } = usePidorContext();

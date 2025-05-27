@@ -1,4 +1,4 @@
-import styles from "../../Components/ModalPidor/Modal.module.css";
+import styles from "../../../Components/ModalPidor/Modal.module.css";
 
 export default function Title() {
   return (
