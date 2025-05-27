@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useAuthContext } from "./AuthContext";
-import Loader from "../src/Components/Loader/loader";
+import { useAuthContext } from "../contexts/AuthContext/AuthContext";
+import Loader from "../Loader/loader";
 
 export default function Login() {
   const [userName, setUserName] = useState("");

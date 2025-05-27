@@ -1,10 +1,9 @@
 import Picture from "../../Components/Pictures/Picture.jsx";
 import { ImageContainer } from "../../Components/Pictures/ImageContainer.jsx";
-import React from "react";
 import PidorModal from "../../Components/ModalPidor/PidorModal.jsx";
 import Title from "./Title.jsx";
 import styles from "./HomePage.module.css";
-import { usePidorContext } from "../../../useContext.jsx";
+import { usePidorContext } from "../../Components/contexts/LastPidorContext/lastPidorContext.jsx";
 import Loader from "../../Components/Loader/loader.jsx";
 
 export default function HomePage() {

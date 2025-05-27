@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "../Buttons/Button.jsx";
 import Modal from "./Modal";
 import { ImageContainer } from "../Pictures/ImageContainer.jsx";
 import styles from "../Pictures/Picture.module.css";
-import { setPidorDay } from "../pidors.service.js";
+import { setPidorDay } from "../Utils/pidors.service.js";
 import Loader from "../Loader/loader.jsx";
-import { useAuthContext } from "../../../Auth/AuthContext.jsx";
+import { useAuthContext } from "../contexts/AuthContext/AuthContext.jsx";
 
 export default function PidorModal({ lastPidorDay, setLastPidorDay }) {
   const [ModalOpen, setModalOpen] = useState(false);
@@ -16,8 +16,9 @@ export default function PidorModal({ lastPidorDay, setLastPidorDay }) {
     const pidorDaySearch = await setPidorDay();
     setIsLoading(true);
     const pidor = pidorDaySearch.pidor;
-    setIsLoading(false);
+
     setLastPidorDay(pidor);
+    setIsLoading(false);
   }
 
   function isTodaysPidorFromToday() {

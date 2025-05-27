@@ -1,5 +1,4 @@
 import styles from "./Picture.module.css";
-import React from "react";
 
 export default function Picture({ image, className }) {
   return (

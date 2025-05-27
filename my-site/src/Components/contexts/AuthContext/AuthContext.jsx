@@ -3,7 +3,7 @@ import {
   getAuthentication,
   loginUser,
   logoutUser,
-} from "../src/Components/pidors.service";
+} from "../../Utils/auth.service";
 
 const AuthContext = createContext();
 

@@ -23,7 +23,7 @@ import {
   getPidorStatsDiagramma,
   getTotalPidorStats,
   pidorsData,
-} from "../pidors.service.js";
+} from "../Utils/pidors.service.js";
 import Loader from "../../Components/Loader/loader.jsx";
 
 export default function Statistic() {

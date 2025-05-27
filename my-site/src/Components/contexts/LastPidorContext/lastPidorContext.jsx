@@ -1,24 +1,30 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getTotalPidorStats } from "./src/Components/pidors.service";
+import { getTotalPidorStats } from "../../Utils/pidors.service";
+import { useAuthContext } from "../AuthContext/AuthContext";
 
 const LastPidorContext = createContext();
 
 export const LastPidorProvider = ({ children }) => {
   const [lastPidorDay, setLastPidorDay] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const { isAuthenticated } = useAuthContext();
 
   useEffect(() => {
     async function searchPidorDay() {
       setIsLoading(true);
-      const pidorLastDay = await getTotalPidorStats("true");
+      try {
+        const pidorLastDay = await getTotalPidorStats("true");
 
-      const lastDayPidor = pidorLastDay.last_pidor;
-      setIsLoading(false);
-      setLastPidorDay(lastDayPidor);
+        const lastDayPidor = pidorLastDay.last_pidor;
+
+        setLastPidorDay(lastDayPidor);
+      } catch (erorr) {
+      } finally {
+        setIsLoading(false);
+      }
     }
-
-    searchPidorDay();
-  }, []);
+    isAuthenticated && searchPidorDay();
+  }, [isAuthenticated]);
 
   const contextValue = {
     isLoading,

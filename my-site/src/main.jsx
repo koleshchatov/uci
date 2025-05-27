@@ -1,11 +1,9 @@
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import App from "./App.jsx";
+import App from "./Components/Routes/App.jsx";
 import { BrowserRouter } from "react-router-dom";
-import Menu from "/src/Pages/HomePage/Menu.jsx";
-import { LastPidorProvider } from "../useContext.jsx";
-import { AuthProvider } from "../Auth/AuthContext.jsx";
-import Layout from "./layout.jsx";
+import { LastPidorProvider } from "./Components/contexts/LastPidorContext/lastPidorContext.jsx";
+import { AuthProvider } from "./Components/contexts/AuthContext/AuthContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>

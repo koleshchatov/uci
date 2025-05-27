@@ -1,11 +1,11 @@
 import "./App.css";
-import { Navigate, replace, Route, Routes } from "react-router-dom";
-import HomePage from "./Pages/HomePage/HomePage";
-import StatsPage from "./Pages/StatsPage/StatsPage";
-import Login from "../Auth/Login";
-import { useAuthContext } from "../Auth/AuthContext";
-import Loader from "./Components/Loader/loader";
-import Layout from "./layout";
+import { Navigate, Route, Routes } from "react-router-dom";
+import HomePage from "../../Pages/HomePage/HomePage";
+import StatsPage from "../../Pages/StatsPage/StatsPage";
+import Login from "../Authtorization/Login";
+import { useAuthContext } from "../contexts/AuthContext/AuthContext";
+import Loader from "../Loader/loader";
+import Layout from "../Layout/layout";
 
 export default function App() {
   const { isAuthenticated, isLoadingAuth, isAuthError, logout } =

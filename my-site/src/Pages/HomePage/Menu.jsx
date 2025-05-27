@@ -1,18 +1,18 @@
 import { Link } from "react-router-dom";
 import styles from "../../Components/ModalPidor/Modal.module.css";
 import { ImageContainer } from "../../Components/Pictures/ImageContainer.jsx";
-import { usePidorContext } from "../../../useContext.jsx";
+import { usePidorContext } from "../../Components/contexts/LastPidorContext/lastPidorContext.jsx";
 import Loader from "../../Components/Loader/loader.jsx";
-import { useAuthContext } from "../../../Auth/AuthContext.jsx";
+import { useAuthContext } from "../../Components/contexts/AuthContext/AuthContext.jsx";
 
 export default function Menu() {
-  const { isLoading, lastPidorDayContext } = usePidorContext();
-  const { isAuthenticated, logout, isLoadingAuth } = useAuthContext();
+  const { isLoading, lastPidorDay } = usePidorContext();
+  const { logout } = useAuthContext();
 
   function isTodaysPidorFromToday() {
-    if (!lastPidorDayContext || !lastPidorDayContext.date) return false;
+    if (!lastPidorDay || !lastPidorDay.date) return false;
     const today = new Date().toISOString().split("T")[0];
-    const pidorDate = lastPidorDayContext.date.split("T")[0];
+    const pidorDate = lastPidorDay.date.split("T")[0];
     return today === pidorDate;
   }
 
@@ -32,7 +32,7 @@ export default function Menu() {
               <img
                 src={
                   isTodaysPidorFromToday()
-                    ? ImageContainer[lastPidorDayContext.name]
+                    ? ImageContainer[lastPidorDay.name]
                     : "public/лого.jpg"
                 }
                 alt="logo"
