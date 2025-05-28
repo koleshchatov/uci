@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import styles from "../../../Components/ModalPidor/Modal.module.css";
-import { ImageContainer } from "../../../Components/Pictures/ImageContainer.js";
-import { usePidorContext } from "../../../Components/contexts/LastPidorContext/lastPidorContext.jsx";
-import Loader from "../../../Components/Loader/";
-import { useAuthContext } from "../../../Components/contexts/AuthContext/AuthContext.jsx";
+import styles from "../../../components/ModalPidor/Modal.module.css";
+import { ImageContainer } from "../../../components/Pictures/ImageContainer.js";
+import { usePidorContext } from "../../../contexts/LastPidorContext/lastPidorContext.jsx";
+import Loader from "../../../components/Loader/index.jsx";
+import { useAuthContext } from "../../../contexts/AuthContext/AuthContext.jsx";
 
 export default function Menu() {
   const { isLoading, lastPidorDay } = usePidorContext();
@@ -42,7 +42,10 @@ export default function Menu() {
           )}
         </div>
         <div className={styles.headerStats}>
-          <Link to={"/stats"}>Посмотрим статистику</Link>
+          <Link to={"/stats"}>Статистика ПИДОРОВ</Link>
+        </div>
+        <div className={styles.headerStats}>
+          <Link to={"/ohuel"}>Статистика ОХУЕВШИХ</Link>
         </div>
         <div className={styles.headerLogin}>
           <Link onClick={handleExit}>Выйти</Link>

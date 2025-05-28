@@ -1,4 +1,4 @@
-import { fetchData } from "../../utils";
+import { fetchData } from "../utils";
 
 export async function pidorsData(page, perPage, sort) {
   const response = await fetchData({

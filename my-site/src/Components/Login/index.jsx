@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuthContext } from "../contexts/AuthContext/AuthContext";
+import { useAuthContext } from "../../contexts/AuthContext/AuthContext";
 import Loader from "../Loader";
 
 export default function Login() {

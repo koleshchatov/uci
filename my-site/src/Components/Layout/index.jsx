@@ -1,4 +1,4 @@
-import Menu from "../../Pages/HomePage/Menu/Menu";
+import Menu from "../../pages/HomePage/Menu";
 
 export default function Layout({ children }) {
   return (

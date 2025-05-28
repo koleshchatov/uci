@@ -1,4 +1,4 @@
-import { fetchData } from "../../utils";
+import { fetchData } from "../utils";
 
 export async function getAuthentication() {
   const response = await fetchData({

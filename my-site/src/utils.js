@@ -1,5 +1,5 @@
 import qs from "qs";
-import { API_URL } from "./config/config.js";
+import { API_URL } from "./configs/apiconfig.js";
 
 export const fetchData = async ({
   path,

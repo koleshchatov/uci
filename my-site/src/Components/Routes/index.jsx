@@ -1,9 +1,10 @@
 import "./App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
-import HomePage from "../../Pages/HomePage";
-import StatsPage from "../../Pages/StatsPage";
-import Login from "../Authtorization";
-import { useAuthContext } from "../contexts/AuthContext/AuthContext";
+import HomePage from "../../pages/HomePage";
+import StatsPage from "../../pages/StatsPage";
+import OhuelPage from "../../pages/OhuelPage";
+import Login from "../login";
+import { useAuthContext } from "../../contexts/AuthContext/AuthContext";
 import Loader from "../Loader";
 import Layout from "../Layout";
 
@@ -24,6 +25,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/stats" element={<StatsPage />} />
+        <Route path="/ohuel" element={<OhuelPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Layout>

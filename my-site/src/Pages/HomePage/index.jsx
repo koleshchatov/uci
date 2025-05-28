@@ -1,10 +1,10 @@
-import Picture from "../../Components/Pictures/index.jsx";
-import { ImageContainer } from "../../Components/Pictures/ImageContainer.js";
-import PidorModal from "../../Components/ModalPidor/index.jsx";
-import Title from "./Title/";
+import Picture from "../../components/Pictures/";
+import { ImageContainer } from "../../components/Pictures/ImageContainer.js";
+import PidorModal from "../../components/ModalPidor/index.jsx";
+import Title from "./Title/index.jsx";
 import styles from "./HomePage.module.css";
-import { usePidorContext } from "../../Components/contexts/LastPidorContext/lastPidorContext.jsx";
-import Loader from "../../Components/Loader/";
+import { usePidorContext } from "../../contexts/LastPidorContext/lastPidorContext.jsx";
+import Loader from "../../components/Loader";
 
 export default function HomePage() {
   const { isLoading, lastPidorDay, setLastPidorDay } = usePidorContext();
