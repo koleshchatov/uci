@@ -16,6 +16,10 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import {
+  ohuelData,
+  getTotalUsersOhuel,
+} from "../../../services/ohuel.service.js";
 
 import { colors } from "../../../configs/colors.js";
 import {
@@ -27,25 +31,35 @@ import {
 import Loader from "../../Loader/index.jsx";
 
 export default function Statistic() {
-  const [newPidorStats, setNewPidorStats] = useState([]);
-  const [newPidorPagination, setNewPidorPagination] = useState([]);
-  const [pidorWithColor, setPidorWithColor] = useState([]);
   const [pidorPie, setPidorPie] = useState([]);
   const [page, setPage] = useState(1);
   const [pidorPerPage, setPidorPerPage] = useState(10);
   const [activeDiagramma, setActiveDiagramma] = useState("Line");
-  const [totalPidor, setTotalPidor] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  // для охуел
+  const [isButtonStatisticClass, setIsButtonStatisticClass] = useState("Pidor");
+  const [totalPidor, setTotalPidor] = useState();
+  const [newPidorPagination, setNewPidorPagination] = useState([]);
+  const [pidorWithColor, setPidorWithColor] = useState([]);
+  const [newPidorStats, setNewPidorStats] = useState([]);
 
   useEffect(() => {
     async function getPidorPage() {
+      setIsLoading(true);
       const pidor = await pidorsData(page, pidorPerPage, "desc");
+      setIsLoading(false);
       setNewPidorPagination(pidor.items);
       setTotalPidor(pidor.pagination.total);
     }
-
-    getPidorPage();
-  }, [page, pidorPerPage]);
+    async function getOhuelPage() {
+      setIsLoading(true);
+      const ohuel = await ohuelData(page, pidorPerPage, "desc");
+      setIsLoading(false);
+      setNewPidorPagination(ohuel.items);
+      setTotalPidor(ohuel.pagination.total);
+    }
+    isButtonStatisticClass === "Pidor" ? getPidorPage() : getOhuelPage();
+  }, [page, pidorPerPage, isButtonStatisticClass]);
 
   useEffect(() => {
     async function getPidorStats() {
@@ -54,8 +68,8 @@ export default function Statistic() {
       const diagrammaStats = await getPidorStatsDiagramma("asc");
       const totalPidorPie = await getTotalPidorStats("true");
       setIsLoading(false);
-
       const dataUsersColors = users.items;
+
       const dataUsersPie = totalPidorPie.stats;
 
       const usersColor = (value) => {
@@ -72,15 +86,47 @@ export default function Statistic() {
       setNewPidorStats(diagrammaStats.daily_stats);
       setPidorPie(dataUsersPie);
     }
+    async function getOhuelStats() {
+      setIsLoading(true);
+      const users = await ohuelData(page, pidorPerPage, "desc");
 
-    getPidorStats();
-  }, []);
+      const daily = await getTotalUsersOhuel("false");
+      const diagrammaOhuelStats = users.items;
+
+      const usersColor = (value) => {
+        const userColor = {};
+
+        for (let i = 0; i < value.length; i++) {
+          if (!userColor[value[i].user.name]) {
+            userColor[value[i].user.name] =
+              colors[Object.keys(userColor).length];
+            console.log(userColor);
+          }
+        }
+        return userColor;
+      };
+
+      const newUserColor = usersColor(diagrammaOhuelStats);
+
+      console.log(newUserColor);
+
+      setPidorWithColor(newUserColor);
+      setNewPidorStats(daily.daily_stats);
+      setIsLoading(false);
+    }
+
+    isButtonStatisticClass === "Pidor" ? getPidorStats() : getOhuelStats();
+  }, [page, pidorPerPage, isButtonStatisticClass]);
 
   function handleClick(number) {
     setPage(number);
   }
   function handleChange(e) {
     setActiveDiagramma(e.target.value);
+  }
+
+  function handleClickPidorStats(e) {
+    setIsButtonStatisticClass(e.target.className);
   }
 
   const DiagrammaBar = ({ data, pidorColors }) => {
@@ -418,39 +464,100 @@ export default function Statistic() {
     );
   };
 
+  function PidorStats() {
+    return (
+      <>
+        {isLoading ? (
+          <Loader />
+        ) : activeDiagramma === "Line" ? (
+          <DiagrammaLine data={newPidorStats} pidorColors={pidorWithColor} />
+        ) : activeDiagramma === "Bar" ? (
+          <DiagrammaBar data={newPidorStats} pidorColors={pidorWithColor} />
+        ) : (
+          <DiagrammaPie data={pidorPie} pidorColors={pidorWithColor} />
+        )}
+
+        <RadioDiagramma />
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className={styles.container}>
+            <div className={styles.id}>Id</div>
+            <div className={styles.time}>Time</div>
+            <div className={styles.name}>Name</div>
+            {newPidorPagination.map((pidor) => {
+              return (
+                <Fragment key={pidor.id}>
+                  <div>{pidor.id}</div>
+                  <div>{new Date(pidor.date).toLocaleString()}</div>
+                  <div>{pidor.user.name}</div>
+                </Fragment>
+              );
+            })}
+          </div>
+        )}
+
+        <Pagination pidorPerPage={pidorPerPage} totalPidor={totalPidor} />
+      </>
+    );
+  }
+
+  function OhuelStats() {
+    return (
+      <>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <DiagrammaLine data={newPidorStats} pidorColors={pidorWithColor} />
+        )}
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className={styles.container}>
+            <div className={styles.id}>Id</div>
+            <div className={styles.time}>Time</div>
+            <div className={styles.name}>Name</div>
+            {newPidorPagination.map((ohuel) => {
+              return (
+                <Fragment key={ohuel.id}>
+                  <div>{ohuel.id}</div>
+                  <div>{new Date(ohuel.date).toLocaleString()}</div>
+                  <div>{ohuel.user.name}</div>
+                </Fragment>
+              );
+            })}
+          </div>
+        )}
+        <Pagination pidorPerPage={pidorPerPage} totalPidor={totalPidor} />
+      </>
+    );
+  }
+
   return (
     <>
+      <div>
+        <button
+          className="Pidor"
+          onClick={handleClickPidorStats}
+          style={{ marginTop: 200, marginRight: 30 }}
+        >
+          Статистика пидоров
+        </button>
+        <button
+          className="Ohuel"
+          onClick={handleClickPidorStats}
+          style={{ marginTop: 200, marginRight: 30 }}
+        >
+          Статистика охуевших
+        </button>
+      </div>
       {isLoading ? (
         <Loader />
-      ) : activeDiagramma === "Line" ? (
-        <DiagrammaLine data={newPidorStats} pidorColors={pidorWithColor} />
-      ) : activeDiagramma === "Bar" ? (
-        <DiagrammaBar data={newPidorStats} pidorColors={pidorWithColor} />
+      ) : isButtonStatisticClass === "Pidor" ? (
+        <PidorStats />
       ) : (
-        <DiagrammaPie data={pidorPie} pidorColors={pidorWithColor} />
+        <OhuelStats />
       )}
-
-      <RadioDiagramma />
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <div className={styles.container}>
-          <div className={styles.id}>Id</div>
-          <div className={styles.time}>Time</div>
-          <div className={styles.name}>Name</div>
-          {newPidorPagination.map((pidor) => {
-            return (
-              <Fragment key={pidor.id}>
-                <div>{pidor.id}</div>
-                <div>{new Date(pidor.date).toLocaleString()}</div>
-                <div>{pidor.user.name}</div>
-              </Fragment>
-            );
-          })}
-        </div>
-      )}
-
-      <Pagination pidorPerPage={pidorPerPage} totalPidor={totalPidor} />
     </>
   );
 }

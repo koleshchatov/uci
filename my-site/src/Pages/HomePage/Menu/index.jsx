@@ -42,10 +42,10 @@ export default function Menu() {
           )}
         </div>
         <div className={styles.headerStats}>
-          <Link to={"/stats"}>Статистика ПИДОРОВ</Link>
+          <Link to={"/stats"}>Статистика</Link>
         </div>
         <div className={styles.headerStats}>
-          <Link to={"/ohuel"}>Статистика ОХУЕВШИХ</Link>
+          <Link to={"/ohuel"}>ТОП ОХУЕВШИХ</Link>
         </div>
         <div className={styles.headerLogin}>
           <Link onClick={handleExit}>Выйти</Link>

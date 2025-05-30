@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import getTotalUsersOhuel from "../../../services/ohuel.service";
-import { ImageContainer } from "../../Pictures/ImageContainer.js";
+import { ImageContainer } from "../../Pictures/ImageContainer";
 import Picture from "../../Pictures";
-
 import styles from "./ohuelstats.module.css";
+import { getTotalUsersOhuel } from "../../../services/ohuel.service.js";
 
 export default function OhuelStatistic() {
   const [isTotalOhuelUsers, setIsTotalOhuelUsers] = useState([]);
@@ -14,8 +13,10 @@ export default function OhuelStatistic() {
     async function getTotalOhuel() {
       setIsLoading(true);
       const ohuelStats = await getTotalUsersOhuel("true");
+      console.log(ohuelStats);
       setIsLoading(false);
       const ohuelUsers = ohuelStats.stats;
+
       const usersOhuels = (value) => {
         const ohuelUsers = {};
         for (let i = 0; i < value.length; i++) {
@@ -29,8 +30,6 @@ export default function OhuelStatistic() {
     }
     getTotalOhuel();
   }, []);
-
-  console.log(isTotalOhuelUsers);
 
   return (
     <>
