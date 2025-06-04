@@ -31,7 +31,8 @@ export default function Menu() {
             <Link to={"/"}>
               <img
                 src={
-                  isTodaysPidorFromToday()
+                  isTodaysPidorFromToday() &&
+                  lastPidorDay === ImageContainer[lastPidorDay.name]
                     ? ImageContainer[lastPidorDay.name]
                     : "public/лого.jpg"
                 }

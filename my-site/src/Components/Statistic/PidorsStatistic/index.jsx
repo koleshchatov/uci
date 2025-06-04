@@ -74,8 +74,11 @@ export default function Statistic() {
 
       const usersColor = (value) => {
         const userColor = {};
+        let colorsCount = 0;
         for (let i = 0; i < value.length; i++) {
-          userColor[value[i].name] = colors[i];
+          const name = value[i].name;
+          userColor[name] = colors[colorsCount % colors.length];
+          colorsCount++;
         }
         return userColor;
       };
@@ -95,20 +98,18 @@ export default function Statistic() {
 
       const usersColor = (value) => {
         const userColor = {};
-
+        let colorsCount = 0;
         for (let i = 0; i < value.length; i++) {
-          if (!userColor[value[i].user.name]) {
-            userColor[value[i].user.name] =
-              colors[Object.keys(userColor).length];
-            console.log(userColor);
+          const name = value[i].user.name;
+          if (!userColor[name]) {
+            userColor[name] = colors[colorsCount % colors.length];
+            colorsCount++;
           }
         }
         return userColor;
       };
 
       const newUserColor = usersColor(diagrammaOhuelStats);
-
-      console.log(newUserColor);
 
       setPidorWithColor(newUserColor);
       setNewPidorStats(daily.daily_stats);

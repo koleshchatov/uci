@@ -13,7 +13,7 @@ export default function OhuelStatistic() {
     async function getTotalOhuel() {
       setIsLoading(true);
       const ohuelStats = await getTotalUsersOhuel("true");
-      console.log(ohuelStats);
+
       setIsLoading(false);
       const ohuelUsers = ohuelStats.stats;
 
@@ -35,7 +35,7 @@ export default function OhuelStatistic() {
     <>
       <div style={{ fontSize: 100 }}>ТОПОВЫЕ ОХУЕВШИЕ</div>
       <div style={{ display: "flex" }}>
-        {Object.entries(isTotalOhuelUsers).map(([key, value]) => (
+        {Object.entries(isTotalOhuelUsers).map(([key, value, index]) => (
           <>
             <figure>
               <Picture
